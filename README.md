@@ -66,7 +66,7 @@ OPTIONAL - Venue TBC
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Resources
+# Resources
 
 Command Line on Code Academy
 (First lesson is enough)
@@ -76,5 +76,5 @@ Guide on Creating and Configuring your personal AWS account and CLI
 https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/aws_account_setup.pptx
 
 AWS Tech Essentials Training (Optional)
-For people starting out in cloud technology the AWS Tech Essentials course is free. It's a bit of a time commitment, but worthwhile for people getting started in learning cloud technology (See Resources below)
+For people starting out in cloud technology the AWS Tech Essentials course is free. It's a bit of a time commitment, but worthwhile for people getting started in learning cloud technology 
 https://aws.amazon.com/training/course-descriptions/essentials/
