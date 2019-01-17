@@ -36,7 +36,7 @@ functions:
 
 ## Test API
 
-macOS and Linux:
+macOS and Linux (sh):
 
 ```shell
 $ subdomain='1234567890'
@@ -58,24 +58,26 @@ $ curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.co
 []
 ```
 
-Windows:
+Windows (PowerShell):
 
 ```powershell
 > $subdomain='1234567890'
 
-> Invoke-RestMethod -Method GET -Uri https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/
+> Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/"
 
-[]
+# nothing
 
-> Invoke-RestMethod -Body 'Prepare bootcamp content' -Method PUT -Uri https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/1
+> Invoke-RestMethod -Body 'Prepare bootcamp content' -Method PUT -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/1"
 
-> Invoke-RestMethod -Method GET -Uri https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/
+> Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/"
 
-[{"description":"Prepare bootcamp content","id":"1"}]
+description              id
+-----------              --
+Prepare bootcamp content 1
 
-> Invoke-RestMethod -Method DELETE -Uri https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/1
+> Invoke-RestMethod -Method DELETE -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/1"
 
-> Invoke-RestMethod -Method GET -Uri https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/
+> Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/"
 
-[]
+# nothing
 ```
