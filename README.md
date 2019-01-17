@@ -1,6 +1,6 @@
-## Seek & DevOps Girls Bootcamp
+## SEEK & DevOps Girls Bootcamp
 
-DevOps Girls with the massive support from Seek are hosting a day-long bootcamp to explore all things Serverless!
+DevOps Girls with the massive support from SEEK are hosting a day-long bootcamp to explore all things Serverless!
 
 If you're looking to be buzzword compliant, 'serverless' is on that list. We wanted to create an opportunity for people to learn about the technical concepts and get hands-on exposure in a super supportive and encouraging environment.
 
