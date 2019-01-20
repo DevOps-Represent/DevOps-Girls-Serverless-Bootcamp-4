@@ -1,11 +1,10 @@
 'use strict';
 
-const AWS_REGION = process.env.AWS_REGION;
 const TABLE_NAME = process.env.TABLE_NAME;
 
 const AWS = require('aws-sdk');
 
-const dynamoDb = new AWS.DynamoDB({ region: AWS_REGION });
+const dynamoDb = new AWS.DynamoDB();
 
 async function deleteTodo(event) {
   const id = event.pathParameters.id;
