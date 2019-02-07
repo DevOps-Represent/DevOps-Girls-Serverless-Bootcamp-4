@@ -3,8 +3,8 @@
 
 In this practical session, we will
 
-- Create a S3 bucket and configure it as a web server.
-- Load the static pages of our website to the bucket.
+- Create a S3 bucket and configure it as a web server
+- Load the static pages of our website to the bucket
 - Create an API Gateway
 - Create a DynamoDB and add some TODOs
 - Create a Lambda that updates our site based on changes to the DynamoDB
@@ -93,11 +93,36 @@ We need our API Gateway to allow our static website to be able to talk to Lambda
 ### 1.) Click Services > API Gateway > Create
 IMGAGE
 ### 2.) Use the following options for creating your API gateway:
-Things to note, we're choosing REST, as this is more typically used for web services as it uses HTTP methods to relay data.  Websocket relies on knowing the IP and socket details, where as REST only needs to know HTTP verbs like GET, PUT, DELETE etc. A websocket is more likely to be used where connections are known to each other, like a real time chat application.
+Something to note, we're choosing REST, as this is more typically used for web services as it uses HTTP methods to relay data.  Websocket relies on knowing the IP and socket details, where as REST only needs to know HTTP verbs like GET, PUT, DELETE etc. A websocket is more likely to be used where connections are known to each other, like a real time chat application.
 
 For the purpose of learning, our Endpoint type will be regional, which means our site will be optimised for users in the same region.
 
 IMGAGE
 
 ## Create a DynamoDB
+Let's create a database to store our to-dos! We're choosing DynamoDB, which is a fully managed NoSQL database. Fully managed means AWS manage scaling in response to demand, patching or configuration.
+'NoSQL' means the data is stored using key value pairs, which is different to an SQL database which is a table (think excel spreadsheet). 
+
+### 1.) Click Services > DynamoDB > Create Table
+	IMAGE
+### 2.) Enter table details:
+	- Table Name: devops-girls-[your name]
+	- Primary Key: id (This is the 'key' in your 'key value pair')
+	IMAGE
+### 2.) Enter DB Contents:
+	- Go to 'Items' tab > Create item
+	IMAGE
+	IMAGE
+	- Next to 'String:' type: Enable Account MFA  <-- this is your first TODO, now add more TODO's following the same steps
+	More TODOs
+		- Create IAM User
+		- Use Groups to assign permissions
+		- Apply an IAM password policy
+
+		Do these look familiar? 🕵🏼‍
+
+
+
+## Create a Lambda Function
+
 
