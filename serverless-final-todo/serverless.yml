@@ -71,3 +71,39 @@ resources:
           - AttributeName: id
             KeyType: HASH
         TableName: ${self:custom.tableName}
+    WebsiteBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        AccessControl: PublicRead
+        Tags:
+          - Key: Public
+            Value: Static assets for DevOps-Girls/DevOps-Girls-Bootcamp-4
+        WebsiteConfiguration:
+          IndexDocument: index.html
+    WebsiteBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Action: s3:GetObject
+              Effect: Allow
+              Principal: '*'
+              Resource:
+                Fn::Join:
+                  - ''
+                  - - 'arn:aws:s3:::'
+                    - Ref: WebsiteBucket
+                    - /*
+        Bucket:
+          Ref: WebsiteBucket
+
+  Outputs:
+    WebsiteBucketName:
+      Value:
+        Ref: WebsiteBucket
+    WebsiteURL:
+      Value:
+        Fn::GetAtt:
+          - WebsiteBucket
+          - WebsiteURL

@@ -7,7 +7,7 @@ get stuck.
 DISCLAIMER: for ease of use, the API has CORS fully enabled. You probably
 wouldn't have such a configuration on an actual production system.
 
-## Create stack
+## Create from template
 
 ```shell
 serverless create --template-url https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/tree/master/serverless-final-todo
@@ -19,10 +19,12 @@ serverless create --template-url https://github.com/DevOps-Girls/DevOps-Girls-Bo
 cd serverless-final-todo
 ```
 
-## Deploy stack
+## Deploy resources
+
+Deploy API stack:
 
 ```shell
-serverless deploy --region ap-southeast-2 --stage dev
+serverless deploy --region ap-southeast-2 --stage dev --verbose
 
 # Service Information
 # service: serverless-final-todo
@@ -39,6 +41,16 @@ serverless deploy --region ap-southeast-2 --stage dev
 #   deleteTodo: serverless-final-todo-dev-deleteTodo
 #   readTodos: serverless-final-todo-dev-readTodos
 #   writeTodo: serverless-final-todo-dev-writeTodo
+
+# Stack Outputs
+# WebsiteBucketName: serverless-final-todo-dev-websitebucket-abcdefghijklm
+# WebsiteURL: http://serverless-final-todo-dev-websitebucket-abcdefghijklm.s3-website-ap-southeast-2.amazonaws.com/
+```
+
+Upload static website assets:
+
+```shell
+aws s3 sync ./website/ s3://serverless-final-todo-dev-websitebucket-abcdefghijklm/
 ```
 
 ## Test API
@@ -88,3 +100,8 @@ Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-
 
 #
 ```
+
+Web:
+
+- Navigate to your website URL <http://serverless-final-todo-dev-websitebucket-abcdefghijklm.s3-website-ap-southeast-2.amazonaws.com/>
+- Enter your `1234567890` subdomain in the top right
