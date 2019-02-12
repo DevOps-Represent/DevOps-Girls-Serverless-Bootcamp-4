@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width, user-scalable=no" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
@@ -9,6 +10,13 @@
     <div id="page">
       <header>
         <h1>Todos</h1>
+        <input
+          id="todo-subdomain"
+          oninput="updateSubdomain()"
+          placeholder="subdomain"
+          size=10
+          type="text"
+        ></input>
       </header>
 
       <main id="todo-list"></main>
@@ -16,11 +24,12 @@
       <footer>
         <form action="javascript:;" id="todo-form" onsubmit="submitTodo()">
           <input
-            id="todo-description"
+            id="todo-input"
+            oninput="updateInput()"
             placeholder="Write a todo..."
             type="text"
           ></input>
-          <input id="todo-submit" type="submit" value="+" />
+          <button disabled id="todo-submit">+</button>
         </form>
       </footer>
 

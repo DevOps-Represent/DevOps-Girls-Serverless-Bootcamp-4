@@ -1,10 +1,15 @@
 :root {
-  --footer-height: 3rem;
-  --highlight-color: #cd285c;
-  --page-padding: 2rem;
-  --todo-button-width: 2rem;
-  --site-background: #dddddd;
-  --item-transition: 250ms ease-in-out;
+  --item-animation: 250ms ease-in-out;
+  --item-size: 3em;
+  --page-margin: 2em;
+
+  --site-foreground: #dddddd;
+  --site-background: black;
+
+  --sk-blue: #0d3880;
+  --sk-blue-darker: #071d40;
+  --sk-blue-lighter: #2765cf;
+  --sk-pink: #e60278;
 }
 
 body,
@@ -17,6 +22,7 @@ body,
 html {
   background-color: var(--site-background);
   box-sizing: border-box;
+  color: var(--site-foreground);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
@@ -25,100 +31,122 @@ html {
 
 button,
 input {
+  border: 0;
+  color: inherit;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: inherit;
+}
+
+button {
+  background-color: var(--sk-pink);
+  cursor: pointer;
+  width: var(--item-size);
+}
+
+button:disabled {
+  background-color: #5e5e5e;
+}
+
+button:focus,
+button:hover {
+  animation: pulse var(--item-animation) infinite;
+}
+@keyframes pulse {
+  0% {
+    font-weight: normal;
+  }
+  100% {
+    font-weight: bold;
+  }
+}
+
+button:focus {
+  border: 1px solid white;
+}
+
+button::-moz-focus-inner {
   border: 0;
 }
 
+input[type='text'] {
+  background-color: transparent;
+  line-height: var(--item-size);
+  padding: 0 var(--page-margin);
+}
+
 #page {
-  background-color: white;
+  background-color: #111;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
   max-width: 960px; /* such responsive */
 }
 
-#page header,
-#page footer {
-  flex: 0 0 auto;
+#page header {
+  background-color: var(--sk-blue);
+  border-bottom: 1px solid var(--site-background);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 var(--page-margin);
 }
 
-#page header {
-  border-bottom: 1px solid var(--site-background);
-  padding: 0 var(--page-padding);
+#page header input[type='text'] {
+  border: 1px solid var(--site-foreground);
+  margin: 1em 0;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+#page main {
+  flex: 1 1 auto;
+  overflow-y: auto;
 }
 
 #page footer {
   border-top: 1px solid var(--site-background);
 }
 
-#page main {
-  flex: 1 1 auto;
-  overflow-y: auto;
-  position: relative;
-}
-
 #todo-form {
   display: flex;
-  height: var(--footer-height);
-  position: relative;
 }
 
-#todo-form input[type='submit'] {
-  bottom: 0;
-  cursor: pointer;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: var(--footer-height);
+#todo-form button,
+#todo-form input[type='text'] {
+  transition: background-color var(--item-animation);
 }
 
-#todo-form input[type='submit']:disabled {
-  background-color: #5f5f5f;
+#todo-form button:not(:disabled) {
+  background-color: var(--sk-blue-lighter);
 }
 
 #todo-form input[type='text'] {
-  line-height: var(--footer-height);
-  margin-right: var(--footer-height);
-  overflow-y: hidden;
-  padding-left: var(--page-padding);
-  resize: none;
-  width: 100%;
+  flex: 1 1 auto;
+}
+
+#todo-list > * {
+  border-bottom: 1px solid var(--site-background);
 }
 
 .todo-item {
-  padding: 0 var(--page-padding);
-  position: relative;
-  transition: background-color var(--item-transition);
+  display: flex;
+  transition: background-color var(--item-animation);
 }
 
-.todo-item > * {
-  display: inline-block;
+.todo-item:focus-within,
+.todo-item:hover {
+  background-color: var(--sk-blue-darker);
 }
 
 .todo-item button {
-  background-color: transparent;
-  bottom: 0;
-  color: transparent;
-  cursor: pointer;
-  position: absolute;
-  right: 0;
-  top: 0;
-  transition: background-color var(--item-transition),
-    color var(--item-transition);
-  width: var(--todo-button-width);
+  opacity: 0;
+  transition: opacity var(--item-animation);
 }
 
-.todo-item:hover {
-  background-color: #ccc;
+.todo-item:focus-within button,
+.todo-item:hover button {
+  opacity: 1;
 }
 
-.todo-item:hover button,
-#todo-form input[type='submit'] {
-  background-color: var(--highlight-color);
-  color: white;
-}
-
-.todo-item p {
-  margin-right: var(--todo-button-width);
+.todo-item input[type='text'] {
+  flex: 1 1 auto;
 }

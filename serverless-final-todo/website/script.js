@@ -1,86 +1,114 @@
-const API_SUBDOMAIN = '1234567890';
+let apiSubdomain = '';
 
-const apiUrl = `https://${encodeURI(
-  API_SUBDOMAIN
-)}.execute-api.ap-southeast-2.amazonaws.com/dev`;
-
-const descriptionElement = document.getElementById('todo-description');
+const inputElement = document.getElementById('todo-input');
 const listElement = document.getElementById('todo-list');
+const subdomainElement = document.getElementById('todo-subdomain');
 const submitElement = document.getElementById('todo-submit');
 
-function deleteTodo(id) {
-  return fetch(`${apiUrl}/${encodeURI(id)}`, {
-    method: 'DELETE'
-  });
-}
+const apiUrl = () =>
+  `https://${encodeURI(
+    apiSubdomain
+  ).toLowerCase()}.execute-api.ap-southeast-2.amazonaws.com/dev`;
 
-async function getTodos() {
-  const response = await fetch(apiUrl);
+const debounced = (delayMs, fn) => {
+  let timerId;
 
-  return response.json();
-}
+  return (...args) => {
+    if (timerId) {
+      clearTimeout(timerId);
+    }
 
-function writeTodo(id, description) {
-  return fetch(`${apiUrl}/${encodeURI(id)}`, {
-    body: description,
-    method: 'PUT'
-  });
-}
+    timerId = setTimeout(() => {
+      timerId = null;
+      fn(...args);
+    }, delayMs);
+  };
+};
 
-function redrawTodos(todos) {
+const updateInput = () => {
+  submitElement.disabled = inputElement.value.trim() === '';
+};
+
+const updateSubdomain = debounced(500, () => {
+  localStorage.setItem('apiSubdomain', subdomainElement.value);
+  return loadPage();
+});
+
+const deleteTodo = id =>
+  fetch(`${apiUrl()}/${encodeURI(id)}`, { method: 'DELETE' });
+
+const getTodos = () => fetch(apiUrl()).then(response => response.json());
+
+const writeTodo = (id, description) =>
+  fetch(`${apiUrl()}/${encodeURI(id)}`, { body: description, method: 'PUT' });
+
+const newTodoElement = (id, description) => {
+  const todo = document.createElement('div');
+  todo.className = 'todo-item';
+
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.value = description;
+  input.setAttribute('data-id', id);
+  input.oninput = debounced(500, () => writeTodo(id, input.value));
+
+  const deleteButton = document.createElement('button');
+  deleteButton.textContent = '×';
+  deleteButton.onclick = async () => {
+    deleteButton.disabled = true;
+
+    try {
+      await deleteTodo(id);
+
+      deleteButton.parentNode.parentNode.removeChild(deleteButton.parentNode);
+    } catch {
+      deleteButton.disabled = false;
+    }
+  };
+
+  todo.appendChild(input);
+  todo.appendChild(deleteButton);
+
+  return todo;
+};
+
+const redrawTodos = todos => {
   while (listElement.firstChild) {
     listElement.removeChild(listElement.firstChild);
   }
 
-  todos.forEach(({ id, description }) => {
-    const todo = document.createElement('div');
-    todo.className = 'todo-item';
+  todos
+    .map(({ id, description }) => newTodoElement(id, description))
+    .forEach(todo => listElement.appendChild(todo));
+};
 
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = '✘';
-    deleteButton.onclick = async function() {
-      await deleteTodo(id);
+const submitTodo = async () => {
+  const id = Date.now();
+  const description = inputElement.value.trim();
+  if (description === '') {
+    return;
+  }
 
-      deleteButton.parentNode.parentNode.removeChild(deleteButton.parentNode);
-    };
-
-    todo.appendChild(deleteButton);
-
-    const p = document.createElement('p');
-    p.contentEditable = 'true';
-    p.setAttribute('data-id', id);
-    p.onblur = async function() {
-      await writeTodo(id, p.innerText);
-    };
-
-    const text = document.createTextNode(description);
-    p.appendChild(text);
-
-    todo.appendChild(p);
-
-    listElement.appendChild(todo);
-  });
-}
-
-async function submitTodo() {
-  descriptionElement.disabled = true;
+  inputElement.disabled = true;
   submitElement.disabled = true;
 
-  const id = Date.now();
-
   try {
-    await writeTodo(id, descriptionElement.value);
+    await writeTodo(id, description);
 
-    await loadPage();
+    const todo = newTodoElement(id, description);
+    listElement.appendChild(todo);
 
-    descriptionElement.value = '';
+    inputElement.value = '';
   } finally {
-    descriptionElement.disabled = false;
+    inputElement.disabled = false;
     submitElement.disabled = false;
   }
-}
+};
 
 const loadPage = async () => {
+  apiSubdomain = localStorage.getItem('apiSubdomain');
+  subdomainElement.value = apiSubdomain;
+
   const todos = await getTodos();
   redrawTodos(todos);
 };
