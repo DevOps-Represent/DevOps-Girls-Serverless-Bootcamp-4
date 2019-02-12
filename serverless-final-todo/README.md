@@ -4,6 +4,9 @@ Complete template for a Serverless API and backing database. You may compare
 your solution to this example after you're done, or use it as a reference if you
 get stuck.
 
+DISCLAIMER: for ease of use, the API has CORS fully enabled. You probably
+wouldn't have such a configuration on an actual production system.
+
 ## Create stack
 
 ```shell

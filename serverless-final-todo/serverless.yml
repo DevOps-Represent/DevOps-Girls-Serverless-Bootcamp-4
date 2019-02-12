@@ -32,6 +32,7 @@ functions:
     handler: handler.deleteTodo
     events:
       - http:
+          cors: true
           method: delete
           path: /{id}
           request:
@@ -42,12 +43,14 @@ functions:
     handler: handler.readTodos
     events:
       - http:
+          cors: true
           method: get
           path: /
   writeTodo:
     handler: handler.writeTodo
     events:
       - http:
+          cors: true
           method: put
           path: /{id}
           request:
