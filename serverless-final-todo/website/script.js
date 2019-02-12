@@ -42,12 +42,24 @@ const writeTodo = (id, description) =>
 // app logic
 //
 
-const loadPage = async () => {
-  const raw = localStorage.getItem('apiSubdomain');
-  const subdomain = encodeURI(raw).toLowerCase();
-  apiUrl = `https://${subdomain}.execute-api.ap-southeast-2.amazonaws.com/dev`;
-  subdomainElement.value = subdomain;
+const sanitise = raw => raw && encodeURI(raw).toLowerCase();
 
+const setApiUrl = () => {
+  const apiParam = new URLSearchParams(window.location.search).get('api');
+
+  console.log(sanitise(apiParam));
+
+  const subdomain = sanitise(apiParam) || sanitise(localStorage.getItem('api'));
+
+  localStorage.setItem('api', subdomain);
+
+  apiUrl = `https://${subdomain}.execute-api.ap-southeast-2.amazonaws.com/dev`;
+
+  subdomainElement.value = subdomain;
+};
+
+const loadPage = async () => {
+  setApiUrl();
   const todos = await getTodos();
   redrawTodos(todos);
 };
@@ -87,7 +99,7 @@ const updateInput = () => {
 };
 
 const updateSubdomain = debounced(500, () => {
-  localStorage.setItem('apiSubdomain', subdomainElement.value);
+  localStorage.setItem('api', subdomainElement.value);
   return loadPage();
 });
 
