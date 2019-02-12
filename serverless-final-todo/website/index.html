@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div id="page">
+      <header>
+        <h1>Todos</h1>
+      </header>
+
+      <main id="todo-list"></main>
+
+      <footer>
+        <form action="javascript:;" id="todo-form" onsubmit="submitTodo()">
+          <input
+            id="todo-description"
+            placeholder="Write a todo..."
+            type="text"
+          ></input>
+          <input id="todo-submit" type="submit" value="+" />
+        </form>
+      </footer>
+
+      <script type="text/javascript" src="script.js"></script>
+    </div>
+  </body>
+</html>
