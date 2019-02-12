@@ -1,4 +1,4 @@
-service: serverless-todo
+service: serverless-final-todo
 
 custom:
   tableName: ${self:service}-${opt:stage}
