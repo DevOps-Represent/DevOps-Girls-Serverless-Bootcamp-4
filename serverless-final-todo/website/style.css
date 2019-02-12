@@ -61,7 +61,7 @@ button:hover {
 }
 
 button:focus {
-  border: 1px solid white;
+  border: 1px solid var(--site-foreground);
 }
 
 button::-moz-focus-inner {
@@ -102,6 +102,10 @@ input[type='text'] {
   overflow-y: auto;
 }
 
+#page main:focus {
+  outline: none;
+}
+
 #page footer {
   border-top: 1px solid var(--site-background);
 }
@@ -123,10 +127,6 @@ input[type='text'] {
   flex: 1 1 auto;
 }
 
-#todo-list > * {
-  border-bottom: 1px solid var(--site-background);
-}
-
 .todo-item {
   display: flex;
   transition: background-color var(--item-animation);
@@ -138,11 +138,11 @@ input[type='text'] {
 }
 
 .todo-item button {
-  opacity: 0;
+  opacity: 0.01;
   transition: opacity var(--item-animation);
 }
 
-.todo-item:focus-within button,
+.todo-item :hover + button,
 .todo-item:hover button {
   opacity: 1;
 }
