@@ -6,6 +6,11 @@ const AWS = require('aws-sdk');
 
 const dynamoDb = new AWS.DynamoDB();
 
+const headers = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Credentials': true
+};
+
 async function deleteTodo(event) {
   const id = event.pathParameters.id;
 
@@ -22,6 +27,7 @@ async function deleteTodo(event) {
   console.log('deleted todo', id);
 
   return {
+    headers,
     statusCode: 204
   };
 }
@@ -43,8 +49,9 @@ async function readTodos() {
   console.log('read', todos.length, 'todo(s)');
 
   return {
-    statusCode: 200,
-    body: JSON.stringify(todos)
+    body: JSON.stringify(todos),
+    headers,
+    statusCode: 200
   };
 }
 
@@ -65,6 +72,7 @@ async function writeTodo(event) {
   console.log('wrote todo', id);
 
   return {
+    headers,
     statusCode: 204
   };
 }

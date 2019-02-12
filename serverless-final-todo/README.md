@@ -1,15 +1,22 @@
-# Serverless TODO
+# Serverless Final TODO
+
+Complete template for a Serverless API and backing database. You may compare
+your solution to this example after you're done, or use it as a reference if you
+get stuck.
+
+DISCLAIMER: for ease of use, the API has CORS fully enabled. You probably
+wouldn't have such a configuration on an actual production system.
 
 ## Create stack
 
 ```shell
-serverless create --template-url https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/tree/master/serverless-todo
+serverless create --template-url https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/tree/master/serverless-final-todo
 
 # Serverless: Generating boilerplate...
-# Serverless: Downloading and installing "serverless-todo"...
-# Serverless: Successfully installed "serverless-todo"
+# Serverless: Downloading and installing "serverless-final-todo"...
+# Serverless: Successfully installed "serverless-final-todo"
 
-cd serverless-todo
+cd serverless-final-todo
 ```
 
 ## Deploy stack
@@ -18,10 +25,10 @@ cd serverless-todo
 serverless deploy --region ap-southeast-2 --stage dev
 
 # Service Information
-# service: serverless-todo
+# service: serverless-final-todo
 # stage: dev
 # region: ap-southeast-2
-# stack: serverless-todo-dev
+# stack: serverless-final-todo-dev
 # api keys:
 #   None
 # endpoints:
@@ -29,9 +36,9 @@ serverless deploy --region ap-southeast-2 --stage dev
 #   GET - https://1234567890.execute-api.ap-southeast-2.amazonaws.com/dev/
 #   PUT - https://1234567890.execute-api.ap-southeast-2.amazonaws.com/dev/{id}
 # functions:
-#   deleteTodo: serverless-todo-dev-deleteTodo
-#   readTodos: serverless-todo-dev-readTodos
-#   writeTodo: serverless-todo-dev-writeTodo
+#   deleteTodo: serverless-final-todo-dev-deleteTodo
+#   readTodos: serverless-final-todo-dev-readTodos
+#   writeTodo: serverless-final-todo-dev-writeTodo
 ```
 
 ## Test API

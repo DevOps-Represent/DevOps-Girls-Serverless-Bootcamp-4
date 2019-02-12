@@ -1,0 +1,18 @@
+service: serverless-starter-todo
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stackName: serverless-starter-todo-dev
+
+package:
+  include:
+    - handler.js
+
+functions:
+  healthCheck:
+    handler: handler.healthCheck
+    events:
+      - http:
+          method: get
+          path: /health-check
