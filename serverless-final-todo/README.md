@@ -1,4 +1,8 @@
-# Serverless TODO
+# Serverless Final TODO
+
+Complete template for a Serverless API and backing database. You may compare
+your solution to this example after you're done, or use it as a reference if you
+get stuck.
 
 ## Create stack
 
