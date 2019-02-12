@@ -9,6 +9,10 @@ In this practical session, we will
 - Create a DynamoDB and add some TODOs
 - Create a Lambda that updates our site based on changes to the DynamoDB
 
+Let's take a look at how this hangs together and what we're going to be creating!
+
+![Architecture](image url)
+
 ## Create S3 bucket as a web server
 
 ### 1.) Creating an S3 Bucket
@@ -109,20 +113,7 @@ Let's create a database to store our to-dos! We're choosing DynamoDB, which is a
 	- Table Name: devops-girls-[your name]
 	- Primary Key: id (This is the 'key' in your 'key value pair')
 	IMAGE
-### 2.) Enter DB Contents:
-	- Go to 'Items' tab > Create item
-	IMAGE
-	IMAGE
-	- Next to 'String:' type: Enable Account MFA  <-- this is your first TODO, now add more TODO's following the same steps
-	More TODOs
-		- Create IAM User
-		- Use Groups to assign permissions
-		- Apply an IAM password policy
-
-		Do these look familiar? 🕵🏼‍
-
-
 
 ## Create a Lambda Function
-
+Now we need a function that puts new values into our Dynamodb via API requests such as Create, Read, Update and Delete. These are added via our UI (User Interface) - that's the code you uploaded and now hosting in an s3 bucket.
 
