@@ -4,7 +4,7 @@ const listElement = document.getElementById('todo-list');
 const subdomainElement = document.getElementById('todo-subdomain');
 const submitElement = document.getElementById('todo-submit');
 
-const sortable = new Sortable.default(listElement, { draggable: '.todo-item' });
+// const sortable = new Sortable.default(listElement, { draggable: '.todo-item' });
 
 let apiUrl = '';
 
@@ -77,6 +77,8 @@ const submitTodo = async () => {
   } finally {
     inputElement.disabled = false;
     submitElement.disabled = false;
+
+    inputElement.focus();
   }
 };
 
@@ -143,6 +145,6 @@ inputElement.addEventListener('input', updateInput);
 
 subdomainElement.addEventListener('input', updateSubdomain);
 
-sortable.on('sortable:stop', sortTodos);
+// sortable.on('sortable:stop', sortTodos);
 
 loadPage();

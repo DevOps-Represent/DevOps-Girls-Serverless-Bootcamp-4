@@ -142,8 +142,9 @@ input[type='text'] {
   transition: opacity var(--item-animation);
 }
 
-.todo-item :hover + button,
-.todo-item:hover button {
+.todo-item:hover button,
+.todo-item button:focus,
+.todo-item :focus + button {
   opacity: 1;
 }
 
