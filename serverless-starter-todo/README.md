@@ -205,7 +205,7 @@ package:
 
 <details><summary>Show</summary><p>
 
-The**package** section describes the code files on your computer that form the
+The **package** section describes the code files on your computer that form the
 API. This includes logic to write todos to and read todos from a database.
 
 The files included in the package are uploaded to an S3 bucket, so that Lambda
@@ -231,7 +231,7 @@ functions:
 
 <details><summary>Show</summary><p>
 
-The functions section describes a Lambda function that can respond to HTTP
+The **functions** section describes a Lambda function that can respond to HTTP
 requests.
 
 </p></details>
@@ -343,8 +343,8 @@ resources:
 
 Properties that we want to add:
 
-- **AttributeDefinitions**, **KeySchema**: we want to create an **id** primary key in
-  our table
+- **AttributeDefinitions**, **KeySchema**: we want to create an **id** primary
+  key in our table
 - **BillingMode**: set this to **PAY_PER_REQUEST** to avoid paying ongoing costs
   while the database is not doing anything
 
