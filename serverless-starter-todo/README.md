@@ -20,7 +20,7 @@ serverless create --template-url https://github.com/DevOps-Girls/DevOps-Girls-Bo
 cd serverless-starter-todo
 ```
 
-Open the `serverless.yml` file, which describes a serverless application.
+Open the _serverless.yml_ file, which describes a serverless application.
 
 ---
 
@@ -38,7 +38,7 @@ provider:
 
 - We'll be running on AWS
 - We're using the Node.js JavaScript runtime for our API
-- We'll default the API's stage to pre-production (`dev`)
+- We'll default the API's stage to pre-production (**dev**)
 
 ---
 
@@ -69,7 +69,7 @@ Have a quick look at the CloudFormation documentation for S3 buckets:
 
 ---
 
-Describe the bucket under the `resources` section:
+Describe the bucket under the **resources** section:
 
 ```yaml
 resources:
@@ -82,8 +82,8 @@ resources:
 
 Properties that we want to add:
 
-- `WebsiteConfiguration`: we want to configure the bucket for website hosting,
-  and set the home page to `index.html`
+- **WebsiteConfiguration**: we want to configure the bucket for website hosting,
+  and set the home page to _index.html_
 
 ---
 
@@ -108,6 +108,9 @@ WebsiteBucketPolicy:
     Bucket:
       Ref: WebsiteBucket
 ```
+
+This allows anyone to read the files in the bucket, which is what we want,
+as the website should be accessible from any device or browser.
 
 ---
 
@@ -168,6 +171,18 @@ Try visiting your website (use your real bucket name):
 
 <http://your-bucket-name-here.s3-website-ap-southeast-2.amazonaws.com/>
 
+What do you see?
+
+<details><summary>answer</summary><p>
+
+You should be able to see the basic layout of the todo app.
+
+However, the todo list would be empty, and you wouldn't be able to add any new
+todos. This is because we haven't set up a backend that the website can read
+todos from and write todos to.
+
+</p></details>
+
 ## 4. Create API
 
 ```plaintext
@@ -175,7 +190,8 @@ S3 -- API Gateway -- Lambda -- DynamoDB
       ^^^^^^^^^^^^^^^^^^^^^
 ```
 
-We have two new sections to add to `serverless.yml`: `package` and `functions`.
+To create a serverless API with API Gateway and Lambda, we need to add two new
+sections to our `serverless.yml`: **package** and **functions**.
 
 ---
 
@@ -189,8 +205,8 @@ package:
 
 <details><summary>answer</summary><p>
 
-The `package` section describes the code files on your computer that form the API.
-This includes logic to store todos in and retrieve todos out of a database.
+The**package** section describes the code files on your computer that form the
+API. This includes logic to write todos to and read todos from a database.
 
 The files included in the package are uploaded to an S3 bucket, so that Lambda
 can access the files and run your API.
@@ -314,7 +330,7 @@ Have a quick look at the CloudFormation documentation for DynamoDB tables:
 
 ---
 
-Add a database table to the `resources` section:
+Add a database table to the **resources** section:
 
 ```yaml
 resources:
@@ -327,14 +343,14 @@ resources:
 
 Properties that we want to add:
 
-- `AttributeDefinitions`, `KeySchema`: we want to create an `id` primary key in
+- **AttributeDefinitions**, **KeySchema**: we want to create an **id** primary key in
   our table
-- `BillingMode`: set this to `PAY_PER_REQUEST` to avoid paying ongoing costs
+- **BillingMode**: set this to **PAY_PER_REQUEST** to avoid paying ongoing costs
   while the database is not doing anything
 
 ---
 
-Deploy again to create your database table:
+Run `serverless deploy` to create your database table:
 
 ```shell
 serverless deploy --region ap-southeast-2 --verbose
@@ -345,6 +361,15 @@ serverless deploy --region ap-southeast-2 --verbose
 Review your changes in the AWS web interface:
 
 <https://console.aws.amazon.com/dynamodb/home>
+
+What do you see?
+
+<details><summary>answer</summary><p>
+You should see a new DynamoDB table:
+
+![DynamoDB table create](../images/dynamodb_table_create.png)
+
+</p></details>
 
 ## 6. Connect the dots
 
@@ -370,6 +395,12 @@ functions:
           path: /{proxy+}
 ```
 
+Run `serverless deploy` to update your Lambda function:
+
+```shell
+serverless deploy --region ap-southeast-2 --verbose
+```
+
 ---
 
 Paste your API URL into the top right textbox of your website:
@@ -379,6 +410,8 @@ Paste your API URL into the top right textbox of your website:
 ---
 
 Try to add, edit, and delete some todos!
+
+![Todo app](../images/todo_app.png)
 
 ## A. What's next
 
