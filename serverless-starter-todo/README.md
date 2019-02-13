@@ -132,6 +132,21 @@ Verify your changes in the AWS web interface:
 - <https://console.aws.amazon.com/cloudformation/home>
 - <https://console.aws.amazon.com/s3/home>
 
+What do you see?
+
+<details><summary>answer</summary><p>
+
+You should see a new CloudFormation stack:
+
+![CloudFormation stack create](../images/cloudformation_stack_create.png)
+
+And that stack creation should have included an S3 bucket with a public bucket
+policy:
+
+![S3 bucket (policy) create](../images/s3_bucket_policy_create.png)
+
+</p></details>
+
 ## 3. Upload static website
 
 ```plaintext
@@ -236,6 +251,21 @@ Review your changes in the AWS web interface.
 
 - <https://console.aws.amazon.com/apigateway/home>
 - <https://console.aws.amazon.com/lambda/home>
+
+What do you see?
+
+<details><summary>answer</summary><p>
+
+You should see that a new API Gateway has been created:
+
+![API Gateway create](../images/api_gateway_create.png)
+
+And a Lambda function has been created and automatically hooked up to that API
+Gateway:
+
+![Lambda function create](../images/lambda_function_create.png)
+
+</p></details>
 
 ---
 
