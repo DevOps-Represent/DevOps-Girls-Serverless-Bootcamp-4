@@ -137,7 +137,7 @@ Verify your changes in the AWS web interface:
 
 What do you see?
 
-<details><summary>answer</summary><p>
+<details><summary>Show</summary><p>
 
 You should see a new CloudFormation stack:
 
@@ -173,7 +173,7 @@ Try visiting your website (use your real bucket name):
 
 What do you see?
 
-<details><summary>answer</summary><p>
+<details><summary>Show</summary><p>
 
 You should be able to see the basic layout of the todo app.
 
@@ -203,7 +203,7 @@ package:
     - handler.js
 ```
 
-<details><summary>answer</summary><p>
+<details><summary>Show</summary><p>
 
 The**package** section describes the code files on your computer that form the
 API. This includes logic to write todos to and read todos from a database.
@@ -229,7 +229,7 @@ functions:
           path: /{proxy+}
 ```
 
-<details><summary>answer</summary><p>
+<details><summary>Show</summary><p>
 
 The functions section describes a Lambda function that can respond to HTTP
 requests.
@@ -270,7 +270,7 @@ Review your changes in the AWS web interface.
 
 What do you see?
 
-<details><summary>answer</summary><p>
+<details><summary>Show</summary><p>
 
 You should see that a new API Gateway has been created:
 
@@ -291,7 +291,7 @@ Try out your new API (use your real service endpoint):
 
 What do you see?
 
-<details><summary>answer</summary><p>
+<details><summary>Show</summary><p>
 You should see something like this:
 
 ```json
@@ -364,7 +364,7 @@ Review your changes in the AWS web interface:
 
 What do you see?
 
-<details><summary>answer</summary><p>
+<details><summary>Show</summary><p>
 You should see a new DynamoDB table:
 
 ![DynamoDB table create](../images/dynamodb_table_create.png)
