@@ -92,9 +92,10 @@ input[type='text'] {
 
 #page header input[type='text'] {
   border: 1px solid var(--site-foreground);
-  margin: 1em 0;
+  flex: 1 1 auto;
+  margin: 1em 0 1em var(--page-margin);
   text-align: right;
-  text-transform: uppercase;
+  text-transform: lowercase;
 }
 
 #page main {

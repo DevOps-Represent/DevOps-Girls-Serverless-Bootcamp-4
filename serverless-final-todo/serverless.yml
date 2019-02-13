@@ -7,8 +7,10 @@ provider:
   name: aws
   runtime: nodejs8.10
   stackName: ${self:service}-${opt:stage}
-  environment:
-    TABLE_NAME: ${self:custom.tableName}
+  usagePlan:
+    throttle:
+      burstLimit: 100
+      rateLimit: 10
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -28,35 +30,16 @@ package:
     - handler.js
 
 functions:
-  deleteTodo:
-    handler: handler.deleteTodo
+  TodoApi:
+    name: serverless-final-todo-api-${opt:stage}
+    handler: handler.handleCorsRequest
+    environment:
+      TABLE_NAME: ${self:custom.tableName}
     events:
       - http:
           cors: true
-          method: delete
-          path: /{id}
-          request:
-            parameters:
-              paths:
-                id: true
-  readTodos:
-    handler: handler.readTodos
-    events:
-      - http:
-          cors: true
-          method: get
-          path: /
-  writeTodo:
-    handler: handler.writeTodo
-    events:
-      - http:
-          cors: true
-          method: put
-          path: /{id}
-          request:
-            parameters:
-              paths:
-                id: true
+          method: any
+          path: /{proxy+}
 
 resources:
   Resources:

@@ -34,13 +34,9 @@ serverless deploy --region ap-southeast-2 --stage dev --verbose
 # api keys:
 #   None
 # endpoints:
-#   DELETE - https://1234567890.execute-api.ap-southeast-2.amazonaws.com/dev/{id}
-#   GET - https://1234567890.execute-api.ap-southeast-2.amazonaws.com/dev/
-#   PUT - https://1234567890.execute-api.ap-southeast-2.amazonaws.com/dev/{id}
+#   ANY - https://1234567890.execute-api.ap-southeast-2.amazonaws.com/dev/{proxy+}
 # functions:
-#   deleteTodo: serverless-final-todo-dev-deleteTodo
-#   readTodos: serverless-final-todo-dev-readTodos
-#   writeTodo: serverless-final-todo-dev-writeTodo
+#   TodoApi: serverless-final-todo-dev-TodoApi
 
 # Stack Outputs
 # WebsiteBucketName: serverless-final-todo-dev-websitebucket-abcdefghijklm
@@ -60,19 +56,19 @@ macOS and Linux (sh):
 ```shell
 subdomain='1234567890'
 
-curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/"
+curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
 
 # []
 
-curl --data 'Prepare bootcamp content' --request PUT "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/1"
+curl --data 'Prepare bootcamp content' --request PUT "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo/1"
 
-curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/"
+curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
 
 # [{"description":"Prepare bootcamp content","id":"1"}]
 
-curl --request DELETE "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/1"
+curl --request DELETE "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo/1"
 
-curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/"
+curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
 
 # []
 ```
@@ -82,21 +78,21 @@ Windows (PowerShell):
 ```powershell
 $subdomain='1234567890'
 
-Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/"
+Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
 
 #
 
-Invoke-RestMethod -Body 'Prepare bootcamp content' -Method PUT -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/1"
+Invoke-RestMethod -Body 'Prepare bootcamp content' -Method PUT -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo/1"
 
-Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/"
+Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
 
 # description              id
 # -----------              --
 # Prepare bootcamp content 1
 
-Invoke-RestMethod -Method DELETE -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/1"
+Invoke-RestMethod -Method DELETE -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo/1"
 
-Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/"
+Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
 
 #
 ```

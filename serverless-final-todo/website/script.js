@@ -28,34 +28,34 @@ const debounced = (delayMs, fn) => {
 };
 
 const deleteTodo = id =>
-  fetch(`${apiUrl}/${encodeURI(id)}`, { method: 'DELETE' });
+  fetch(`${apiUrl}/todo/${encodeURIComponent(id)}`, { method: 'DELETE' });
 
 const getTodos = () =>
-  fetch(apiUrl)
+  fetch(`${apiUrl}/todo`)
     .then(response => response.json())
     .then(todos => todos.sort(({ id: a }, { id: b }) => a - b));
 
 const writeTodo = (id, description) =>
-  fetch(`${apiUrl}/${encodeURI(id)}`, { body: description, method: 'PUT' });
+  fetch(`${apiUrl}/todo/${encodeURIComponent(id)}`, {
+    body: description,
+    method: 'PUT'
+  });
 
 //
 // app logic
 //
 
-const sanitise = raw => raw && encodeURI(raw).toLowerCase();
+const sanitiseUri = raw => raw && encodeURI(raw).toLowerCase();
 
 const setApiUrl = () => {
-  const apiParam = new URLSearchParams(window.location.search).get('api');
+  const rawParam = new URLSearchParams(window.location.search).get('api');
+  const apiParam = rawParam && decodeURIComponent(rawParam);
 
-  console.log(sanitise(apiParam));
+  apiUrl = sanitiseUri(apiParam) || sanitiseUri(localStorage.getItem('api'));
 
-  const subdomain = sanitise(apiParam) || sanitise(localStorage.getItem('api'));
+  localStorage.setItem('api', apiUrl);
 
-  localStorage.setItem('api', subdomain);
-
-  apiUrl = `https://${subdomain}.execute-api.ap-southeast-2.amazonaws.com/dev`;
-
-  subdomainElement.value = subdomain;
+  subdomainElement.value = apiUrl;
 };
 
 const loadPage = async () => {
