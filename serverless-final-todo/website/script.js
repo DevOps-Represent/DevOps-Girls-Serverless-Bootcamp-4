@@ -45,7 +45,11 @@ const writeTodo = (id, description) =>
 // app logic
 //
 
-const sanitiseUri = raw => raw && encodeURI(raw).toLowerCase();
+const sanitiseUri = raw =>
+  raw &&
+  encodeURI(raw)
+    .toLowerCase()
+    .replace(/\/$/, '');
 
 const setApiUrl = () => {
   const rawParam = new URLSearchParams(window.location.search).get('api');
