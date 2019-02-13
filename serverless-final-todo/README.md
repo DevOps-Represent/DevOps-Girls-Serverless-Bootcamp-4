@@ -100,4 +100,5 @@ Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-
 Web:
 
 - Navigate to your website URL <http://serverless-final-todo-dev-websitebucket-abcdefghijklm.s3-website-ap-southeast-2.amazonaws.com/>
-- Enter your `1234567890` subdomain in the top right
+- Enter your `https://1234567890.execute-api.ap-southeast-2.amazonaws.com/dev`
+  API URL in the top right

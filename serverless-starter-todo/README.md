@@ -96,4 +96,53 @@ Review your changes in the AWS web interface:
 
 ---
 
-Try to call your new API.
+Try out your new API (swap out `1234567890` with your real subdomain):
+
+<https://1234567890.execute-api.ap-southeast-2.amazonaws.com/dev/todo>
+
+You should see `hello world` on the webpage.
+
+## 4. Add a database table
+
+Have a quick look at the CloudFormation documentation:
+
+<https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html>
+
+---
+
+We care about the following properties:
+
+- `AttributeDefinitions`, `KeySchema`: define primary key in our table
+- `BillingMode`: set this to `PAY_PER_REQUEST` to avoid ongoing costs while the
+  database is idle
+- `TableName` (optional): you can choose one, or have one generated for you
+
+---
+
+Add a new `resources` section to your `serverless.yml`:
+
+```yaml
+resources:
+  Resources:
+    DatabaseTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        # more stuff here
+```
+
+Here, you can describe any AWS infrastructure supported by CloudFormation, and
+it will be created/updated as part of your `serverless deploy`.
+
+---
+
+Try another deployment to create your database table:
+
+```shell
+serverless deploy --region ap-southeast-2 --verbose
+```
+
+---
+
+Review your changes in the AWS web interface:
+
+<https://console.aws.amazon.com/dynamodb/home>
