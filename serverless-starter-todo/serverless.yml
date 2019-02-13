@@ -4,15 +4,19 @@ provider:
   name: aws
   runtime: nodejs8.10
   stackName: serverless-starter-todo-dev
+  stage: dev
 
 package:
   include:
+    - greeter.js
     - handler.js
 
 functions:
-  healthCheck:
-    handler: handler.healthCheck
+  TodoApi:
+    name: serverless-starter-todo-api-dev
+    handler: greeter.handleRequest
     events:
       - http:
-          method: get
-          path: /health-check
+          cors: true
+          method: any
+          path: /{proxy+}
