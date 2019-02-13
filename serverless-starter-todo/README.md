@@ -1,8 +1,14 @@
 # Serverless Starter TODO
 
-Starter template for a Serverless API and backing database.
+Starter template for a todo app.
 
-## 1. Clone template
+```plaintext
+S3 -- API Gateway -- Lambda -- DynamoDB
+```
+
+## 1. Start with template
+
+Copy starter files from our template:
 
 ```shell
 serverless create --template-url https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/tree/master/serverless-starter-todo
@@ -14,10 +20,11 @@ serverless create --template-url https://github.com/DevOps-Girls/DevOps-Girls-Bo
 cd serverless-starter-todo
 ```
 
-## 2. Review `serverless.yml`
+Open the `serverless.yml` file, which describes a serverless application.
 
-The `serverless.yml` begins by listing out some names, and the cloud provider
-and environment we will be using:
+---
+
+It begins by listing out some basic details:
 
 ```yaml
 service: serverless-starter-todo
@@ -29,6 +36,133 @@ provider:
   stage: dev
 ```
 
+- We'll be running on AWS
+- We're using the Node.js JavaScript runtime for our API
+- We'll default the API's stage to pre-production (`dev`)
+
+---
+
+It also includes a CloudFormation resources section at the end, which is AWS's
+way of managing infrastructure as code. We can describe a DynamoDB table, S3
+bucket, and much more here, and they will be automatically created/updated
+whenever we run `serverless deploy`.
+
+```yaml
+resources:
+  Resources:
+    # remove these brackets and add some CloudFormation resources
+    {}
+```
+
+## 2. Create S3 bucket
+
+```plaintext
+S3 -- API Gateway -- Lambda -- DynamoDB
+^^
+```
+
+---
+
+Have a quick look at the CloudFormation documentation for S3 buckets:
+
+<https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html>
+
+---
+
+Describe the bucket under the `resources` section:
+
+```yaml
+resources:
+  Resources:
+    WebsiteBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        # add properties here
+```
+
+Properties that we want to add:
+
+- `AccessControl`: we want to be able to access the website from any browser
+  (public read)
+- `WebsiteConfiguration`: we want to set the starting point to `index.html`
+
+---
+
+Add a bucket policy below it:
+
+```yaml
+WebsiteBucketPolicy:
+  Type: AWS::S3::BucketPolicy
+  Properties:
+    PolicyDocument:
+      Version: '2012-10-17'
+      Statement:
+        - Action: s3:GetObject
+          Effect: Allow
+          Principal: '*'
+          Resource:
+            Fn::Join:
+              - ''
+              - - 'arn:aws:s3:::'
+                - Ref: WebsiteBucket
+                - /*
+    Bucket:
+      Ref: WebsiteBucket
+```
+
+---
+
+Let's run a `serverless deploy` to create our S3 bucket:
+
+```shell
+serverless deploy --region ap-southeast-2 --verbose
+
+# Service Information
+# service: serverless-starter-todo
+# stage: dev
+# region: ap-southeast-2
+# stack: serverless-starter-todo-dev
+# api keys:
+#   None
+```
+
+---
+
+Verify your changes in the AWS web interface:
+
+- <https://console.aws.amazon.com/cloudformation/home>
+- <https://console.aws.amazon.com/s3/home>
+
+## 3. Upload static website
+
+```plaintext
+S3 -- API Gateway -- Lambda -- DynamoDB
+^^
+```
+
+---
+
+Upload the HTML, CSS and JS files in the `websites` folder to S3:
+
+```shell
+aws s3 sync website/ s3://your-bucket-name-here
+```
+
+---
+
+Try visiting your website (use your real bucket name):
+
+<http://your-bucket-name-here.s3-website-ap-southeast-2.amazonaws.com/>
+
+## 4. Create API
+
+```plaintext
+S3 -- API Gateway -- Lambda -- DynamoDB
+      ^^^^^^^^^^^^^^^^^^^^^
+```
+
+We have two new sections to add to `serverless.yml`: `package` and `functions`.
+
 ---
 
 What do you think this section does?
@@ -36,14 +170,18 @@ What do you think this section does?
 ```yaml
 package:
   include:
-    - greeter.js
     - handler.js
 ```
 
-<details><summary>answer</summary>
-The package section describes the code files on your computer that need
-to be uploaded to AWS, to run on Lambda.
-</details>
+<details><summary>answer</summary><p>
+
+The `package` section describes the code files on your computer that form the API.
+This includes logic to store todos in and retrieve todos out of a database.
+
+The files included in the package are uploaded to an S3 bucket, so that Lambda
+can access the files and run your API.
+
+</p></details>
 
 ---
 
@@ -53,7 +191,7 @@ How about this section?
 functions:
   TodoApi:
     name: serverless-starter-todo-api-dev
-    handler: greeter.greet
+    handler: handler.handleCorsRequest
     events:
       - http:
           cors: true
@@ -61,12 +199,14 @@ functions:
           path: /{proxy+}
 ```
 
-<details><summary>answer</summary>
+<details><summary>answer</summary><p>
+
 The functions section describes a Lambda function that can respond to HTTP
 requests.
-</details>
 
-## 3. Try a deployment
+</p></details>
+
+---
 
 Run the `serverless deploy` command:
 
@@ -84,42 +224,68 @@ serverless deploy --region ap-southeast-2 --verbose
 #   ANY - https://1234567890.execute-api.ap-southeast-2.amazonaws.com/dev/{proxy+}
 # functions:
 #   TodoApi: serverless-starter-todo-dev-TodoApi
+#
+# Stack Outputs
+# TodoApiLambdaFunctionQualifiedArn: arn:aws:lambda:ap-southeast-2:123456789012:function:serverless-starter-todo-api-dev:1
+# ServiceEndpoint: https://1234567890.execute-api.ap-southeast-2.amazonaws.com/dev
+# ServerlessDeploymentBucketName: serverless-starter-todo-serverlessdeploymentbuck-abcdefghijkl
 ```
 
 ---
 
-Review your changes in the AWS web interface:
+Review your changes in the AWS web interface.
 
-- <https://console.aws.amazon.com/cloudformation/home>
 - <https://console.aws.amazon.com/apigateway/home>
 - <https://console.aws.amazon.com/lambda/home>
 
 ---
 
-Try out your new API (swap out `1234567890` with your real subdomain):
+Try out your new API (use your real service endpoint):
 
-<https://1234567890.execute-api.ap-southeast-2.amazonaws.com/dev/todo>
+<https://xxxxxxxxxx.execute-api.ap-southeast-2.amazonaws.com/dev/todo>
 
-You should see `hello world` on the webpage.
+What do you see?
 
-## 4. Add a database table
+<details><summary>answer</summary><p>
+You should see something like this:
 
-Have a quick look at the CloudFormation documentation:
+```json
+{ "message": "Internal server error" }
+```
+
+Let's have a look at the logs to see what happened:
+
+<https://ap-southeast-2.console.aws.amazon.com/cloudwatch/home?region=ap-southeast-2#logEventViewer:group=/aws/lambda/serverless-starter-todo-api-dev>
+
+![Lambda log error](../images/lambda_log_error.png)
+
+The issue with our Lambda function is that it's missing the name of the
+database table to store our todos in. That's because we haven't created the
+database table yet!
+
+</p></details>
+
+## 5. Create database table
+
+```plaintext
+S3 -- API Gateway -- Lambda -- DynamoDB
+                               ^^^^^^^^
+```
+
+We now have an API that we can call from our website to read and write todos.
+The API needs to store the todos somewhere, so that they aren't lost once you
+close your browser tab, and so you can access them across your laptop, phone,
+etc.
+
+---
+
+Have a quick look at the CloudFormation documentation for DynamoDB tables:
 
 <https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html>
 
 ---
 
-We care about the following properties:
-
-- `AttributeDefinitions`, `KeySchema`: define primary key in our table
-- `BillingMode`: set this to `PAY_PER_REQUEST` to avoid ongoing costs while the
-  database is idle
-- `TableName` (optional): you can choose one, or have one generated for you
-
----
-
-Add a new `resources` section to your `serverless.yml`:
+Add a database table to the `resources` section:
 
 ```yaml
 resources:
@@ -130,12 +296,16 @@ resources:
         # more stuff here
 ```
 
-Here, you can describe any AWS infrastructure supported by CloudFormation, and
-it will be created/updated as part of your `serverless deploy`.
+Properties that we want to add:
+
+- `AttributeDefinitions`, `KeySchema`: we want to create an `id` primary key in
+  our table
+- `BillingMode`: set this to `PAY_PER_REQUEST` to avoid paying ongoing costs
+  while the database is not doing anything
 
 ---
 
-Try another deployment to create your database table:
+Deploy again to create your database table:
 
 ```shell
 serverless deploy --region ap-southeast-2 --verbose
@@ -146,3 +316,45 @@ serverless deploy --region ap-southeast-2 --verbose
 Review your changes in the AWS web interface:
 
 <https://console.aws.amazon.com/dynamodb/home>
+
+## 6. Connect the dots
+
+```plaintext
+S3 -- API Gateway -- Lambda -- DynamoDB
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+```
+
+Add your database table name as an environment variable for your Lambda
+function:
+
+```yaml
+functions:
+  TodoApi:
+    name: serverless-starter-todo-api-dev
+    handler: handler.handleCorsRequest
+    environment:
+      TABLE_NAME: your-table-name-here
+    events:
+      - http:
+          cors: true
+          method: any
+          path: /{proxy+}
+```
+
+---
+
+Paste your API URL into the top right textbox of your website:
+
+![Website URL field](../images/website_url_field.png)
+
+---
+
+Try to add, edit, and delete some todos!
+
+## A. What's next
+
+Some ideas:
+
+- Authentication and authorisation
+- HTTPS and a nice domain name
+- Completing todos, changing their order, etc.

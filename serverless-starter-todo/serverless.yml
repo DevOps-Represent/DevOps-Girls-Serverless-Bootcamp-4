@@ -6,17 +6,7 @@ provider:
   stackName: serverless-starter-todo-dev
   stage: dev
 
-package:
-  include:
-    - greeter.js
-    - handler.js
-
-functions:
-  TodoApi:
-    name: serverless-starter-todo-api-dev
-    handler: greeter.handleRequest
-    events:
-      - http:
-          cors: true
-          method: any
-          path: /{proxy+}
+resources:
+  Resources:
+    # remove these brackets and add some CloudFormation resources
+    {}

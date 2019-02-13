@@ -88,10 +88,10 @@ OPTIONAL - Venue TBC
    through the AWS web interface
 
 1. [Serverless Starter Todo](serverless-starter-todo): walkthrough of creating a
-   todo app backend with the Serverless Framework
+   todo app with the Serverless Framework
 
 1. [Serverless Final Todo](serverless-final-todo): completed version of a todo
-   app backend for reference
+   app for reference
 
 ## Resources
 
