@@ -91,52 +91,6 @@ Note down the public URL of the S3 bucket and click on URL
 
 ![Website](https://github.com/DevOps-Girls/devopsgirls-bootcamp3/blob/master/images/3-3-serverless-static-site/3-3-10-s3-public-endpoint.png?raw=true)
 
-## Create your API Gateway
-We need our API Gateway to allow our static website to be able to talk to Lambda and DynamoDB
-
-### 1.) Click Services > API Gateway > Create
-IMGAGE
-### 2.) Use the following options for creating your API gateway:
-Something to note, we're choosing REST, as this is more typically used for web services as it uses HTTP methods to relay data.  Websocket relies on knowing the IP and socket details, where as REST only needs to know HTTP verbs like GET, PUT, DELETE etc. A websocket is more likely to be used where connections are known to each other, like a real time chat application.
-
-For the purpose of learning, our Endpoint type will be regional, which means our site will be optimised for users in the same region.
-
-![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_1.png?raw=true)
-![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_2.png?raw=true)
-
-
-Then go to Resources > Actions > Create Resource
-![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_3.png?raw=true)
-then...
-![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_4.png?raw=true)
-
-Configure as Proxy Resource check box
-Enable API gateway CORS check box
-Click "Create Resource"
-![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_5.png?raw=true)
-
-
-IMAGE
-
-Enter the name of your lambda function
-
-Save
-
-Resources > Actions > Deploy API
-
-Stage > name your stage 'dev'
-
-Click "Deploy"
-
-IMAGE
-
-Here is where your URL appears! Now let's try your todo!
-
-
-Now your trigger has been added to your lammda function! (go check if you want to)
-
-
-
 
 ## Create a DynamoDB
 Let's create a database to store our to-dos! We're choosing DynamoDB, which is a fully managed NoSQL database. Fully managed means AWS manage scaling in response to demand, patching or configuration.
@@ -162,28 +116,7 @@ Now we need a function that puts new values into our Dynamodb via API requests s
 ...then fill in the required fields as per the below:
 ![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_3.png?raw=true)
 
-
-### 3.) Configuring the Trigger
-First off, take a minute to look at the different trigger options. Can you think of how these triggers might be used? 
-We are using the API Gateway as our trigger. In other words, any API calls that are part of our CRUD web app, will trigger an action. For example, if you create a to-do, this will trigger the lambda function to write this to DynamoDB.
-
-Choose API Gateway as your trigger:
-![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_4.png?raw=true)
-
-### Let's configure our API Gateway as a trigger for our Lambda code:
-
-Security refers to who/what can access this API. For example, if you have an API that should only be accessed by you, you could specify an IAM user or role that locks down this access.
-Another example is a log in API for a social media account, your API may be accessible based on authenication conditions being met.
-
-For the purpose of learning, we're going to use Open. But know, that anyone will be able to access your end point.
-
-IMAGE
-
-Then click "Save" 💾 
-
-IMAGE
-
-### 4.) Add your Lambda Code
+### 3.) Add your Lambda Code
 Think back to the ![architecture diagram](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/architecture.png?raw=true)
 , the thing that allows our web app to actually work is a Lambda Function.
 
@@ -198,7 +131,7 @@ IMAGE
 
 IMAGE
 
-### 5.) Environment Variables
+### 4.) Environment Variables
 Your Lambda code will need to know what to look for to execute the function. For example, our Lambda Function will need to know the name of your DynamoDB!
 
 `key = TABLE_NAME`
@@ -210,3 +143,50 @@ IMAGE
 Click "Save"
 
 IMAGE
+
+## Create your API Gateway
+We need our API Gateway to allow our static website to be able to talk to Lambda and DynamoDB
+
+### 1.) Click Services > API Gateway > Create
+IMGAGE
+### 2.) Use the following options for creating your API gateway:
+Something to note, we're choosing REST, as this is more typically used for web services as it uses HTTP methods to relay data.  Websocket relies on knowing the IP and socket details, where as REST only needs to know HTTP verbs like GET, PUT, DELETE etc. A websocket is more likely to be used where connections are known to each other, like a real time chat application.
+
+For the purpose of learning, our Endpoint type will be regional, which means our site will be optimised for users in the same region.
+
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_1.png?raw=true)
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_2.png?raw=true)
+
+
+Then go to Resources > Actions > Create Resource
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_3.png?raw=true)
+then...
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_4.png?raw=true)
+
+Click "Configure as Proxy Resource" check box
+Click "Enable API gateway CORS" check box
+Click "Create Resource"
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_5.png?raw=true)
+
+then...
+
+Enter the name of your Lambda Function
+
+Click "Save"
+
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_5.png?raw=true)
+
+
+Resources > Actions > Deploy API
+
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_5.png?raw=true)
+
+Stage > name your stage 'dev'
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_5.png?raw=true)
+
+Click "Deploy"
+
+Here is where your URL appears! Now let's try your todo!
+
+
+Now your trigger has been added to your lammda function! (go check if you want to)
