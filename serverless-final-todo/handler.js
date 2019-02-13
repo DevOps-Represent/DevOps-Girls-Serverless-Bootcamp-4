@@ -27,7 +27,7 @@ function handleRequest(event) {
     return readTodos();
   }
 
-  const idMatch = path.match(/^\/todo\/([a-zA-Z0-9-]+)$/);
+  const idMatch = path.match(/^\/todo\/([^/]+)\/?$/);
 
   if (!idMatch) {
     return { statusCode: 404 };
