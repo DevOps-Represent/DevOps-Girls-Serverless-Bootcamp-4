@@ -82,9 +82,8 @@ resources:
 
 Properties that we want to add:
 
-- `AccessControl`: we want to be able to access the website from any browser
-  (public read)
-- `WebsiteConfiguration`: we want to set the starting point to `index.html`
+- `WebsiteConfiguration`: we want to configure the bucket for website hosting,
+  and set the home page to `index.html`
 
 ---
 

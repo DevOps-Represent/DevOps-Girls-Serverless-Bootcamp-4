@@ -57,9 +57,8 @@ resources:
     WebsiteBucket:
       Type: AWS::S3::Bucket
       Properties:
-        AccessControl: PublicRead
         Tags:
-          - Key: Public
+          - Key: Public # this is a SEEK thing
             Value: Static assets for DevOps-Girls/DevOps-Girls-Bootcamp-4
         WebsiteConfiguration:
           IndexDocument: index.html
