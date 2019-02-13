@@ -1,0 +1,154 @@
+:root {
+  --item-animation: 250ms ease-in-out;
+  --item-size: 3em;
+  --page-margin: 2em;
+
+  --site-foreground: #dddddd;
+  --site-background: black;
+
+  --sk-blue: #0d3880;
+  --sk-blue-darker: #071d40;
+  --sk-blue-lighter: #2765cf;
+  --sk-pink: #e60278;
+}
+
+body,
+html,
+#page {
+  height: 100%;
+}
+
+body,
+html {
+  background-color: var(--site-background);
+  box-sizing: border-box;
+  color: var(--site-foreground);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+button,
+input {
+  border: 0;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button {
+  background-color: var(--sk-pink);
+  cursor: pointer;
+  width: var(--item-size);
+}
+
+button:disabled {
+  background-color: #5e5e5e;
+}
+
+button:focus,
+button:hover {
+  animation: pulse var(--item-animation) infinite;
+}
+@keyframes pulse {
+  0% {
+    font-weight: normal;
+  }
+  100% {
+    font-weight: bold;
+  }
+}
+
+button:focus {
+  border: 1px solid var(--site-foreground);
+}
+
+button::-moz-focus-inner {
+  border: 0;
+}
+
+input[type='text'] {
+  background-color: transparent;
+  line-height: var(--item-size);
+  padding: 0 var(--page-margin);
+}
+
+#page {
+  background-color: #111;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: 960px; /* such responsive */
+}
+
+#page header {
+  background-color: var(--sk-blue);
+  border-bottom: 1px solid var(--site-background);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 var(--page-margin);
+}
+
+#page header input[type='text'] {
+  border: 1px solid var(--site-foreground);
+  flex: 1 1 auto;
+  margin: 1em 0 1em var(--page-margin);
+  text-align: right;
+  text-transform: lowercase;
+}
+
+#page main {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+#page main:focus {
+  outline: none;
+}
+
+#page footer {
+  border-top: 1px solid var(--site-background);
+}
+
+#todo-form {
+  display: flex;
+}
+
+#todo-form button,
+#todo-form input[type='text'] {
+  transition: background-color var(--item-animation);
+}
+
+#todo-form button:not(:disabled) {
+  background-color: var(--sk-blue-lighter);
+}
+
+#todo-form input[type='text'] {
+  flex: 1 1 auto;
+}
+
+.todo-item {
+  display: flex;
+  transition: background-color var(--item-animation);
+}
+
+.todo-item:focus-within,
+.todo-item:hover {
+  background-color: var(--sk-blue-darker);
+}
+
+.todo-item button {
+  opacity: 0.01;
+  transition: opacity var(--item-animation);
+}
+
+.todo-item:hover button,
+.todo-item button:focus,
+.todo-item :focus + button {
+  opacity: 1;
+}
+
+.todo-item input[type='text'] {
+  flex: 1 1 auto;
+}

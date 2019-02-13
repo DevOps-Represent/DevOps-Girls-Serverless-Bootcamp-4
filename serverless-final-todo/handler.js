@@ -6,9 +6,47 @@ const AWS = require('aws-sdk');
 
 const dynamoDb = new AWS.DynamoDB();
 
-async function deleteTodo(event) {
-  const id = event.pathParameters.id;
+async function handleCorsRequest(event) {
+  const response = await handleRequest(event);
 
+  response.headers = response.headers || {};
+  response.headers['Access-Control-Allow-Origin'] = '*';
+  response.headers['Access-Control-Allow-Credentials'] = true;
+
+  return response;
+}
+
+function handleRequest(event) {
+  const body = event.body;
+  const method = event.httpMethod.toUpperCase();
+  const path = event.path.toLowerCase();
+
+  console.log('handling request', method, path);
+
+  if (path.match(/^\/todo\/?$/) && method === 'GET') {
+    return readTodos();
+  }
+
+  const idMatch = path.match(/^\/todo\/([a-zA-Z0-9-]+)$/);
+
+  if (!idMatch) {
+    return { statusCode: 404 };
+  }
+
+  const id = idMatch[1];
+
+  if (method === 'DELETE') {
+    return deleteTodo(id);
+  }
+
+  if (method === 'PUT') {
+    return writeTodo(id, body);
+  }
+
+  return { statusCode: 404 };
+}
+
+async function deleteTodo(id) {
   console.log('deleting todo', id);
 
   const parameters = {
@@ -21,9 +59,7 @@ async function deleteTodo(event) {
 
   console.log('deleted todo', id);
 
-  return {
-    statusCode: 204
-  };
+  return { statusCode: 204 };
 }
 
 async function readTodos() {
@@ -42,16 +78,10 @@ async function readTodos() {
 
   console.log('read', todos.length, 'todo(s)');
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(todos)
-  };
+  return { body: JSON.stringify(todos), statusCode: 200 };
 }
 
-async function writeTodo(event) {
-  const id = event.pathParameters.id;
-  const description = event.body;
-
+async function writeTodo(id, description) {
   console.log('writing todo', id);
 
   const parameters = {
@@ -64,13 +94,9 @@ async function writeTodo(event) {
 
   console.log('wrote todo', id);
 
-  return {
-    statusCode: 204
-  };
+  return { statusCode: 204 };
 }
 
 module.exports = {
-  deleteTodo,
-  readTodos,
-  writeTodo
+  handleCorsRequest
 };
