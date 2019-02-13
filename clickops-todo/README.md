@@ -53,7 +53,7 @@ Click on the "Properties" tab, and click on "Static Website Hosting"
 ![Configure Bucket](https://github.com/DevOps-Girls/devopsgirls-bootcamp3/blob/master/images/3-3-serverless-static-site/3-3-7-configure-s3-bucket.png?raw=true)
 
 ### 3.) Configure bucket to host a website
-Choose "Use this bucket to host a website", enter "index.html" in the "Index document" text box, and click "Save".
+Choose "Use this bucket to host a website", enter "index.html" in the "Index document" text box, and click "Save" 💾 
 
 ![Configure Bucket](https://github.com/DevOps-Girls/devopsgirls-bootcamp3/blob/master/images/3-3-serverless-static-site/3-3-8-configure-s3-bucket.png?raw=true)
 
@@ -108,24 +108,24 @@ Let's create a database to store our to-dos! We're choosing DynamoDB, which is a
 'NoSQL' means the data is stored using key value pairs, which is different to an SQL database which is a table (think excel spreadsheet). 
 
 ### 1.) Click Services > DynamoDB > Create Table
-![DynamoDB](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/dynamo_1.png)
+![DynamoDB](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/dynamo_1.png?raw=true)
 ### 2.) Enter table details:
 	- Table Name: devops-girls-[your name]
 	- Primary Key: id (This is the 'key' in your 'key value pair')
-![DynamoDB](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/dynamo_2.png)
+![DynamoDB](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/dynamo_2.png?raw=true)
 
 
 ## Create a Lambda Function
 Now we need a function that puts new values into our Dynamodb via API requests such as Create, Read, Update and Delete. These are added via our UI (User Interface) - that's the code you uploaded and now hosting in an s3 bucket.
 
 ### 1.) Click Services > Lambda > Create Function
-![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_1.png)
+![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_1.png?raw=true)
 
 ### 2.) Let's Create a Lambda Function from Scratch
-![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_2.png)
+![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_2.png?raw=true)
 
 ...then fill in the required fields as per the below:
-![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_3.png)
+![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_3.png?raw=true)
 
 
 ### 3.) Configuring the Trigger
@@ -133,4 +133,45 @@ First off, take a minute to look at the different trigger options. Can you think
 We are using the API Gateway as our trigger. In other words, any API calls that are part of our CRUD web app, will trigger an action. For example, if you create a to-do, this will trigger the lambda function to write this to DynamoDB.
 
 Choose API Gateway as your trigger:
-![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_4.png)
+![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_4.png?raw=true)
+
+### Let's configure our API Gateway as a trigger for our Lambda code:
+
+Security refers to who/what can access this API. For example, if you have an API that should only be accessed by you, you could specify an IAM user or role that locks down this access.
+Another example is a log in API for a social media account, your API may be accessible based on authenication conditions being met.
+
+For the purpose of learning, we're going to use Open. But know, that anyone will be able to access your end point.
+
+IMAGE
+
+Then click "Save" 💾 
+
+IMAGE
+
+### 4.) Add your Lambda Code
+Think back to the ![architecture diagram](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/architecture.png?raw=true)
+, the thing that allows our web app to actually work is a Lambda Function.
+
+Click on the name of your Lambda Function at the top of the page
+IMAGE
+
+Delete the hello world code example below and replace it with the code from this example:
+
+IMAGE
+
+⬇️
+
+IMAGE
+
+### 5.) Environment Variables
+Your Lambda code will need to know what to look for to execute the function. For example, our Lambda Function will need to know the name of your DynamoDB!
+
+`key = TABLE_NAME`
+
+`value = it's what you called your DynamoDB table, open up a new tab and copy and paste the name in this field 🧐`
+
+IMAGE
+
+Click "Save"
+
+IMAGE
