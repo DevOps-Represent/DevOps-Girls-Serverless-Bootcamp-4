@@ -101,7 +101,42 @@ Something to note, we're choosing REST, as this is more typically used for web s
 
 For the purpose of learning, our Endpoint type will be regional, which means our site will be optimised for users in the same region.
 
-IMGAGE
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_1.png?raw=true)
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_2.png?raw=true)
+
+
+Then go to Resources > Actions > Create Resource
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_3.png?raw=true)
+then...
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_4.png?raw=true)
+
+Configure as Proxy Resource check box
+Enable API gateway CORS check box
+Click "Create Resource"
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_5.png?raw=true)
+
+
+IMAGE
+
+Enter the name of your lambda function
+
+Save
+
+Resources > Actions > Deploy API
+
+Stage > name your stage 'dev'
+
+Click "Deploy"
+
+IMAGE
+
+Here is where your URL appears! Now let's try your todo!
+
+
+Now your trigger has been added to your lammda function! (go check if you want to)
+
+
+
 
 ## Create a DynamoDB
 Let's create a database to store our to-dos! We're choosing DynamoDB, which is a fully managed NoSQL database. Fully managed means AWS manage scaling in response to demand, patching or configuration.
