@@ -200,7 +200,7 @@ What do you think this section does?
 ```yaml
 package:
   include:
-    - handler.js
+    - index.js
 ```
 
 <details><summary>Show</summary><p>
@@ -221,7 +221,7 @@ How about this section?
 functions:
   TodoApi:
     name: serverless-starter-todo-api-dev
-    handler: handler.handleCorsRequest
+    handler: index.handler
     events:
       - http:
           cors: true
@@ -233,6 +233,18 @@ functions:
 
 The **functions** section describes a Lambda function that can respond to HTTP
 requests.
+
+**index.handler** tells a (JavaScript) Lambda function to open a _index.js_ file
+and call the **handler** function when a HTTP request is received.
+
+We have configured API Gateway to allow **any** method, and any path with the
+**{proxy+}** path variable. This is [Lambda proxy integration].
+
+In short, it means that all types of requests are sent to our Lambda function,
+and our code is responsible for checking the request method and path, and
+figuring out what to do.
+
+[lambda proxy integration]: https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-set-up-simple-proxy.html#lambda-proxy-integration-with-proxy-resource
 
 </p></details>
 
@@ -385,7 +397,7 @@ function:
 functions:
   TodoApi:
     name: serverless-starter-todo-api-dev
-    handler: handler.handleCorsRequest
+    handler: index.handler
     environment:
       TABLE_NAME: your-table-name-here
     events:

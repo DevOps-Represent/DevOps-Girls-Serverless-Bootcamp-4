@@ -27,12 +27,12 @@ provider:
 
 package:
   include:
-    - handler.js
+    - index.js
 
 functions:
   TodoApi:
     name: serverless-final-todo-api-${opt:stage}
-    handler: handler.handleCorsRequest
+    handler: index.handler
     environment:
       TABLE_NAME: ${self:custom.tableName}
     events:

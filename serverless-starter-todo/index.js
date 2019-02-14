@@ -6,7 +6,7 @@ const AWS = require('aws-sdk');
 
 const dynamoDb = new AWS.DynamoDB();
 
-async function handleCorsRequest(event) {
+async function handler(event) {
   const response = await handleRequest(event);
 
   response.headers = response.headers || {};
@@ -27,7 +27,7 @@ function handleRequest(event) {
     return readTodos();
   }
 
-  const idMatch = path.match(/^\/todo\/([a-zA-Z0-9-]+)$/);
+  const idMatch = path.match(/^\/todo\/([^/]+)\/?$/);
 
   if (!idMatch) {
     return { statusCode: 404 };
@@ -98,5 +98,5 @@ async function writeTodo(id, description) {
 }
 
 module.exports = {
-  handleCorsRequest
+  handler
 };
