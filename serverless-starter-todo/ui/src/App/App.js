@@ -9,6 +9,7 @@ import {
 } from 'seek-style-guide/react';
 
 import TodoList from './components/TodoList/TodoList';
+import Header from './components/Header/Header';
 import axios from 'axios';
 import { BASE_URL } from '../config';
 
@@ -43,6 +44,19 @@ export default class App extends Component {
     this.setState({ todos: newTodoList });
   }
 
+  onDelete(event) {
+    const todoId = parseInt(event.target.value, 10);
+    const todoList = this.state.todos;
+    const todoIndex = todoList.findIndex(todo => todo.id === todoId);
+
+    const newTodoList = [
+      ...todoList.slice(0, todoIndex),
+      ...todoList.slice(todoIndex + 1)
+    ];
+
+    this.setState({ todos: newTodoList });
+  }
+
   getTodos() {
     axios
       .get(`${BASE_URL}/todos`, { params: { _limit: 10 } })
@@ -52,14 +66,15 @@ export default class App extends Component {
   render() {
     return (
       <StyleGuideProvider>
+        <Header />
         <PageBlock>
           <Card transparent />
-          <Card>
-            <Section>
-              <Text hero>Todo List</Text>
-            </Section>
-          </Card>
-          <TodoList todos={this.state.todos} onChange={this.onCheckboxClick} />
+
+          <TodoList
+            todos={this.state.todos}
+            onChange={this.onCheckboxClick}
+            onDelete={this.onDelete}
+          />
         </PageBlock>
 
         <Footer />
