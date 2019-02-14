@@ -8,12 +8,12 @@ In this practical session, we will
 - Load the static pages of our website to the bucket
 - Create a DynamoDB
 - Create a Lambda that updates our site based on changes to the DynamoDB
-- - Create an API Gateway
+- Create an API Gateway
 
 
 Let's take a look at how this hangs together and what we're going to be creating!
 
-![Architecture](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/architecture.png)
+![Architecture](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/architecture.png?raw=true)
 
 ## Create S3 bucket as a web server
 
@@ -28,7 +28,7 @@ Enter a unique bucket name and click "Next". The bucket name has to be globally 
 ![s3](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/s3_1.png?raw=true)
 
 
-### 3.) Accept defaults
+### 3.) Accept defaults for "Configure Options"
 Click "Next" without making any changes.
 
 ### 4.) Make bucket public
@@ -47,7 +47,7 @@ Review the inputs, and click "Create Bucket"
 ## Configure S3 bucket as a webserver
 
 ### 1.) Choose the S3 bucket just created
-Go to Services > S3, then click on the bucket you just created
+Click on the bucket you just created
 
 ![Configure Bucket](https://github.com/DevOps-Girls/devopsgirls-bootcamp3/blob/master/images/3-3-serverless-static-site/3-3-6-configure-s3-bucket.png?raw=true)
 
@@ -56,7 +56,7 @@ Click on the "Properties" tab, and click on "Static Website Hosting"
 
 ![Configure Bucket](https://github.com/DevOps-Girls/devopsgirls-bootcamp3/blob/master/images/3-3-serverless-static-site/3-3-7-configure-s3-bucket.png?raw=true)
 
-### 3.) Configure bucket to host a website
+### 4.) Configure bucket to host a website
 Choose "Use this bucket to host a website", enter "index.html" in the "Index document" text box, and click "Save" 💾 
 
 ![Configure Bucket](https://github.com/DevOps-Girls/devopsgirls-bootcamp3/blob/master/images/3-3-serverless-static-site/3-3-8-configure-s3-bucket.png?raw=true)
@@ -73,6 +73,8 @@ $ cd DevOps-Girls-Bootcamp-4/serverless-final-todo/website
 
 Copy the files to the S3 bucket created above. If you have the AWS CLI client:
 
+NOTE: update your this command with your bucket name after the ' // '
+
 ```
 $ aws s3 sync . s3://yourname-devopsgirls-site
 ```
@@ -88,13 +90,18 @@ Navigate to the S3 bucket in the AWS console, and confirm all the files are list
 ### 3.) Make files public
 Choose all the files, click on "More" and choose "Make Public". When prompted, confirm by clicking "Make Public" again
 
-![Make Public](https://github.com/DevOps-Girls/devopsgirls-bootcamp3/blob/master/images/3-3-serverless-static-site/3-3-9-make-files-public.png?raw=true)
+![s3 public](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/s3_filepublic.png?raw=true)
+
 
 
 ### 4.) Access the website
 Note down the public URL of the S3 bucket and click on URL
 
 ![Website](https://github.com/DevOps-Girls/devopsgirls-bootcamp3/blob/master/images/3-3-serverless-static-site/3-3-10-s3-public-endpoint.png?raw=true)
+
+Your website should now look like this!
+
+IMAGE
 
 
 ## Create a DynamoDB
@@ -217,5 +224,22 @@ Click "Deploy"
 ![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_7.png?raw=true)
 
 ## Here is where your URL appears! Now let's try your todo!
+Copy and paste this URL into your static website where it says 'API'
 
-Now your trigger has been added to your lambda function! (go check if you want to)
+![yourAPI](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/website_url_field.png?raw=true)
+
+
+Add some TODOS!
+
+IMAGE of final UI
+
+Extra points: right click anywhere on the web page and selection 'Inspect'
+
+IMAGE inspect
+
+Click on the console tab to see the output of your requests, if you're seeing something like this, it's working!
+
+IMAGE console
+
+You can even check out your DynamoDB to see new TODOs being addes based on your input.
+
