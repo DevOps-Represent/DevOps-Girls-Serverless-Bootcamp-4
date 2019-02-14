@@ -211,7 +211,10 @@ S3 -- API Gateway -- Lambda -- DynamoDB
 ```
 
 To create a serverless API with API Gateway and Lambda, we need to add two new
-sections to our `serverless.yml`: **package** and **functions**.
+sections to our `serverless.yml`:
+
+- **package**
+- **functions**
 
 ---
 
@@ -397,40 +400,87 @@ Review your changes in the AWS web interface:
 What do you see?
 
 <details><summary>Show</summary><p>
-You should see a new DynamoDB table:
+You should see a new database table:
 
 ![DynamoDB table create](../images/dynamodb_table_create.png)
 
-</p></details>
-
-## 6. Connect the dots
+## 6. Wire up the backend
 
 ```plaintext
 S3 -- API Gateway -- Lambda -- DynamoDB
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                            ^^
 ```
 
-Add your database table name as an environment variable for your Lambda
-function:
+---
+
+Add permissions for your Lambda function to communicate with your new table:
+
+```yaml
+provider:
+  ...
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DeleteItem
+        - dynamodb:PutItem
+        - dynamodb:Scan
+      Resource:
+        Fn::Join:
+          - ''
+          - - 'arn:aws:dynamodb:'
+            - Ref: AWS::Region
+            - ':'
+            - Ref: AWS::AccountId
+            - :table/
+            - Ref: DatabaseTable
+```
+
+---
+
+Add the table's name as an environment variable, so your Lambda function knows
+where to store the todos:
 
 ```yaml
 functions:
   TodoApi:
-    name: serverless-starter-todo-api-dev
-    handler: index.handler
+    ...
     environment:
-      TABLE_NAME: your-table-name-here
-    events:
-      - http:
-          cors: true
-          method: any
-          path: /{proxy+}
+      TABLE_NAME:
+        Ref: DatabaseTable
 ```
 
-Run `serverless deploy` to update your Lambda function:
+---
+
+Run `serverless deploy` to create the links between your Lambda function and
+DynamoDB table:
 
 ```shell
 serverless deploy --verbose
+```
+
+---
+
+Try out your new API again (use your real service endpoint):
+
+<https://xxxxxxxxxx.execute-api.ap-southeast-2.amazonaws.com/dev/todo>
+
+What do you see?
+
+<details><summary>Show</summary><p>
+
+You should see something like this:
+
+```json
+[]
+```
+
+</p></details>
+
+## 7. Wire up the frontend
+
+```plaintext
+S3 -- API Gateway -- Lambda -- DynamoDB
+   ^^
 ```
 
 ---
