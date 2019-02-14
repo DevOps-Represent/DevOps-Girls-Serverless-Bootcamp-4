@@ -1,0 +1,90 @@
+@import (reference) '~seek-style-guide/theme';
+
+.activeFocusReset() {
+  .input:not([readonly]):not([disabled]):focus + .label &,
+  .input:not([readonly]):not([disabled]):active + .label & {
+    outline: none;
+    border-color: transparent;
+    .focus();
+  }
+}
+
+.root {
+  display: inline-block;
+}
+
+.input {
+  opacity: 0;
+  position: absolute;
+}
+
+.label {
+  display: block;
+
+  :checked + & {
+    color: @sk-mid-gray-light;
+    text-decoration: line-through;
+    font-style: italic;
+  }
+}
+
+.standard {
+  .touchableText(@standard-type-scale);
+  height: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox {
+  .activeFocusReset();
+
+  background-color: @sk-white;
+  width: @row-height * 5;
+  height: @row-height * 5;
+  flex: 0 0 (@row-height * 5);
+  border: @field-border-width solid @sk-mid-gray-light;
+  border-radius: @field-border-radius;
+  margin-right: @field-gutter-width;
+  position: relative;
+}
+
+.checkMark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: @field-border-radius;
+}
+
+.checkMarkSvg {
+  width: 18px;
+  height: 18px;
+  transition: opacity 0.2s ease, @spring-transition;
+  transform-origin: 50% 50%;
+  opacity: 0;
+
+  .input:active + .label & {
+    transform: scale(0.9);
+  }
+
+  &.checkMarkSvg_isSelected {
+    fill: @sk-form-accent;
+
+    .input:checked + .label & {
+      opacity: 1;
+    }
+  }
+
+  &.checkMarkSvg_isHover {
+    fill: @sk-gray-light;
+
+    .input:hover:not(:checked) + .label & {
+      opacity: 1;
+    }
+  }
+}
