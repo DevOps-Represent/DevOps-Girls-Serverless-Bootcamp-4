@@ -52,13 +52,7 @@ const sanitiseUri = raw =>
     .replace(/\/$/, '');
 
 const setApiUrl = () => {
-  const rawParam = new URLSearchParams(window.location.search).get('api');
-  const apiParam = rawParam && decodeURIComponent(rawParam);
-
-  apiUrl = sanitiseUri(apiParam) || sanitiseUri(localStorage.getItem('api'));
-
-  localStorage.setItem('api', apiUrl);
-
+  apiUrl = sanitiseUri(localStorage.getItem('api'));
   subdomainElement.value = apiUrl;
 };
 
@@ -162,5 +156,11 @@ inputElement.addEventListener('input', updateInput);
 subdomainElement.addEventListener('input', updateSubdomain);
 
 // sortable.on('sortable:stop', sortTodos);
+
+const rawParam = new URLSearchParams(window.location.search).get('api');
+
+if (rawParam) {
+  localStorage.setItem('api', sanitiseUri(decodeURIComponent(rawParam)));
+}
 
 loadPage();
