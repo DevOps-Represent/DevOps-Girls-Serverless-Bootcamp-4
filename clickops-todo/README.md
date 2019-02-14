@@ -201,4 +201,4 @@ Click "Deploy"
 
 Here is where your URL appears! Now let's try your todo!
 
-Now your trigger has been added to your lammda function! (go check if you want to)
+Now your trigger has been added to your lambda function! (go check if you want to)
