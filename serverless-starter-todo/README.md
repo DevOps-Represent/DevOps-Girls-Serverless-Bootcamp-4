@@ -31,14 +31,19 @@ service: serverless-starter-todo
 
 provider:
   name: aws
+  region: ${opt:region, 'ap-southeast-2'}
   runtime: nodejs8.10
   stackName: serverless-starter-todo-dev
-  stage: dev
+  stage: ${opt:stage, 'dev'}
+  iamRoleStatements:
+    # Replace these square brackets with IAM permissions.
+    []
 ```
 
 - We'll be running on AWS
 - We're using the Node.js JavaScript runtime for our API
-- We'll default the API's stage to pre-production (**dev**)
+- We'll default the application to run in Sydney (**ap-southeast-2**)
+- We'll default the application stage to pre-production (**dev**)
 
 ---
 
@@ -50,7 +55,11 @@ whenever we run `serverless deploy`.
 ```yaml
 resources:
   Resources:
-    # remove these brackets and add some CloudFormation resources
+    # Replace these curly brackets with CloudFormation resources.
+    {}
+
+  Outputs:
+    # Replace these curly brackets with CloudFormation outputs.
     {}
 ```
 
@@ -78,6 +87,12 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         # add properties here
+
+  Outputs:
+    WebsiteBucketName:
+      WebsiteBucketName:
+        Value:
+          Ref: WebsiteBucket
 ```
 
 Properties that we want to add:
@@ -90,23 +105,28 @@ Properties that we want to add:
 Add a bucket policy below it:
 
 ```yaml
-WebsiteBucketPolicy:
-  Type: AWS::S3::BucketPolicy
-  Properties:
-    PolicyDocument:
-      Version: '2012-10-17'
-      Statement:
-        - Action: s3:GetObject
-          Effect: Allow
-          Principal: '*'
-          Resource:
-            Fn::Join:
-              - ''
-              - - 'arn:aws:s3:::'
-                - Ref: WebsiteBucket
-                - /*
-    Bucket:
-      Ref: WebsiteBucket
+resources:
+  Resources:
+    WebsiteBucket:
+      # same as above
+      ...
+    WebsiteBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Action: s3:GetObject
+              Effect: Allow
+              Principal: '*'
+              Resource:
+                Fn::Join:
+                  - ''
+                  - - 'arn:aws:s3:::'
+                    - Ref: WebsiteBucket
+                    - /*
+        Bucket:
+          Ref: WebsiteBucket
 ```
 
 This allows anyone to read the files in the bucket, which is what we want,
@@ -117,7 +137,7 @@ as the website should be accessible from any device or browser.
 Let's run a `serverless deploy` to create our S3 bucket:
 
 ```shell
-serverless deploy --region ap-southeast-2 --verbose
+serverless deploy --verbose
 
 # Service Information
 # service: serverless-starter-todo
@@ -253,7 +273,7 @@ figuring out what to do.
 Run the `serverless deploy` command:
 
 ```shell
-serverless deploy --region ap-southeast-2 --verbose
+serverless deploy --verbose
 
 # Service Information
 # service: serverless-starter-todo
@@ -365,7 +385,7 @@ Properties that we want to add:
 Run `serverless deploy` to create your database table:
 
 ```shell
-serverless deploy --region ap-southeast-2 --verbose
+serverless deploy --verbose
 ```
 
 ---
@@ -410,7 +430,7 @@ functions:
 Run `serverless deploy` to update your Lambda function:
 
 ```shell
-serverless deploy --region ap-southeast-2 --verbose
+serverless deploy --verbose
 ```
 
 ---

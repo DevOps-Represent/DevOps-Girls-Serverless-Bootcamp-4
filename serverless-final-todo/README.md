@@ -24,7 +24,7 @@ cd serverless-final-todo
 Deploy API stack:
 
 ```shell
-serverless deploy --region ap-southeast-2 --stage dev --verbose
+serverless deploy --verbose
 
 # Service Information
 # service: serverless-final-todo

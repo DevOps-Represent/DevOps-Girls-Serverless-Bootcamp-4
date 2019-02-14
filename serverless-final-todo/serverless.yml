@@ -5,8 +5,10 @@ custom:
 
 provider:
   name: aws
+  region: ${opt:region, 'ap-southeast-2'}
   runtime: nodejs8.10
   stackName: ${self:service}-${opt:stage}
+  stage: ${opt:stage, 'dev'}
   usagePlan:
     throttle:
       burstLimit: 100

@@ -2,11 +2,27 @@ service: serverless-starter-todo
 
 provider:
   name: aws
+  region: ${opt:region, 'ap-southeast-2'}
   runtime: nodejs8.10
   stackName: serverless-starter-todo-dev
-  stage: dev
+  stage: ${opt:stage, 'dev'}
+  iamRoleStatements:
+    # Replace these square brackets with IAM permissions.
+    []
+
+functions:
+  # Replace these curly brackets with a Lambda function.
+  {}
+
+package:
+  # Replace these curly brackets with files to package.
+  {}
 
 resources:
   Resources:
-    # remove these brackets and add some CloudFormation resources
+    # Replace these curly brackets with CloudFormation resources.
+    {}
+
+  Outputs:
+    # Replace these curly brackets with CloudFormation outputs.
     {}
