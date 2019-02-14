@@ -404,6 +404,8 @@ You should see a new database table:
 
 ![DynamoDB table create](../images/dynamodb_table_create.png)
 
+</p></details>
+
 ## 6. Wire up the backend
 
 ```plaintext
