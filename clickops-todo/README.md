@@ -74,7 +74,7 @@ $ cd DevOps-Girls-Bootcamp-4/serverless-final-todo/website
 Copy the files to the S3 bucket created above. If you have the AWS CLI client:
 
 ```
-$ aws s3 sync . s3://`yourname-devopsgirls-site`
+$ aws s3 sync . s3://yourname-devopsgirls-site
 ```
 
 If not, got to `https://s3.console.aws.amazon.com/s3/buckets/yourname-devopsgirls-site` and upload the files via the AWS console (keep all the defaults).
@@ -119,19 +119,32 @@ Now we need a function that puts new values into our Dynamodb via API requests s
 ![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_2.png?raw=true)
 
 ...then fill in the required fields as per the below:
+
+- Name: [yourname_lambda_fn]
+
+- Runtime: Nodejs
+
+- Role: 'Create new role from one or more templates'
+
+- Role Name: [yourname_lambda_role]
+
+- Policy Templates: Simple Micoservices Permission
+
+
 ![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_3.png?raw=true)
 
 ### 3.) Add your Lambda Code
-Think back to the ![architecture diagram](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/architecture.png?raw=true)
+Think back to the [architecture diagram](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/architecture.png?raw=true)
 , the thing that allows our web app to actually work is a Lambda Function.
 
 Click on the name of your Lambda Function at the top of the page
-IMAGE
+
 
 Delete the hello world code example below and replace it with the code from this example:
 
 ![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_4.png?raw=true)
 
+Add the handler.js code via this link: [link](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/serverless-final-todo/handler.js)
 
 ### 4.) Environment Variables
 Your Lambda code will need to know what to look for to execute the function. For example, our Lambda Function will need to know the name of your DynamoDB!
@@ -169,15 +182,16 @@ Now we have an API, we need to create from 'programmable entities'. Without divi
 
 Then go to Resources > Actions > Create Resource
 
-![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_3.png?raw=true)
+IMAGE
 
-then...
+- Click "Configure as Proxy Resource" check box
 
-![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_4.png?raw=true)
+- Click "Enable API gateway CORS" check box
 
-Click "Configure as Proxy Resource" check box
-Click "Enable API gateway CORS" check box
-Click "Create Resource"
+* Note that the resource name and path fields now have values, keep those in there. *
+
+- Click "Create Resource"
+
 
 ![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_5.png?raw=true)
 
@@ -187,7 +201,7 @@ Enter the name of your Lambda Function
 
 Click "Save"
 
-![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_5.png?raw=true)
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_6.png?raw=true)
 
 
 Resources > Actions > Deploy API
@@ -195,10 +209,13 @@ Resources > Actions > Deploy API
 ![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_5.png?raw=true)
 
 Stage > name your stage 'dev'
-![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_5.png?raw=true)
+
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_8.png?raw=true)
 
 Click "Deploy"
 
-Here is where your URL appears! Now let's try your todo!
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_7.png?raw=true)
+
+## Here is where your URL appears! Now let's try your todo!
 
 Now your trigger has been added to your lammda function! (go check if you want to)
