@@ -1,13 +1,15 @@
-### Building a serverless website in AWS
+### Building a serverless website in AWS via the 'Clickops' method
+
 ## What we are going to do
 
 In this practical session, we will
 
 - Create a S3 bucket and configure it as a web server
 - Load the static pages of our website to the bucket
-- Create an API Gateway
-- Create a DynamoDB and add some TODOs
+- Create a DynamoDB
 - Create a Lambda that updates our site based on changes to the DynamoDB
+- - Create an API Gateway
+
 
 Let's take a look at how this hangs together and what we're going to be creating!
 
@@ -23,17 +25,19 @@ Go to Services > S3, then click on "Create Bucket"
 ### 2.) Choose a name for S3 Bucket
 Enter a unique bucket name and click "Next". The bucket name has to be globally unique. So use something like `yourname-devopsgirls-site`
 
-![Create Bucket](https://github.com/DevOps-Girls/devopsgirls-bootcamp3/blob/master/images/3-3-serverless-static-site/3-3-2-create-s3-bucket.png?raw=true)
+![s3](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/s3_1.png?raw=true)
+
 
 ### 3.) Accept defaults
 Click "Next" without making any changes.
 
-![Create Bucket](https://github.com/DevOps-Girls/devopsgirls-bootcamp3/blob/master/images/3-3-serverless-static-site/3-3-3-create-s3-bucket.png?raw=true)
-
 ### 4.) Make bucket public
-In the "Manage public permissions" drop down choose "Grant public read access to this bucket". Note that you will have a warning, but since we want to host a public website in this bucket, it is ok. Click "Next".
+WE ADVISE NEVER MAKING AN s3 BUCKET PUBLIC! Unless you're using it to host a website, then you need to make it public so people can view your site.
 
-![Create Bucket](https://github.com/DevOps-Girls/devopsgirls-bootcamp3/blob/master/images/3-3-serverless-static-site/3-3-4-create-s3-bucket.png?raw=true)
+So when you get to the 'permissions' options, this means you're UNTICKING these boxes:
+
+![s3](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/s3_2.png?raw=true)
+
 
 ### 5.) Confirm bucket creation
 Review the inputs, and click "Create Bucket"
@@ -63,8 +67,8 @@ Choose "Use this bucket to host a website", enter "index.html" in the "Index doc
 If you have not yet done so, clone the DevOps-Girls/devopsgirls-bootcamp3 repo and change working directory to website_files:
 
 ```
-$ git clone ggit@github.com:DevOps-Girls/DevOps-Girls-Bootcamp-4.git
-$ cd DevOps-Girls-Bootcamp-4/website_files
+$ git clone git@github.com:DevOps-Girls/DevOps-Girls-Bootcamp-4.git
+$ cd DevOps-Girls-Bootcamp-4/serverless-final-todo/website
 ```
 
 Copy the files to the S3 bucket created above. If you have the AWS CLI client:
@@ -73,12 +77,13 @@ Copy the files to the S3 bucket created above. If you have the AWS CLI client:
 $ aws s3 sync . s3://`yourname-devopsgirls-site`
 ```
 
-If not, got to `https://s3.console.aws.amazon.com/s3/buckets/yourname-devopsgirls-site` and upload the files via the AWS console (keep all the defaults):
+If not, got to `https://s3.console.aws.amazon.com/s3/buckets/yourname-devopsgirls-site` and upload the files via the AWS console (keep all the defaults).
 
-IMAGE
+They're in the repo you cloned before: ` DevOps-Girls-Bootcamp-4/serverless-final-todo/website  `
+
 
 ### 2.) Confirm files have been uploaded
-Navigate to the S3 bucket in the AWS console, and confirm all the files in the website_files directory are listed there.
+Navigate to the S3 bucket in the AWS console, and confirm all the files are listed there.
 
 ### 3.) Make files public
 Choose all the files, click on "More" and choose "Make Public". When prompted, confirm by clicking "Make Public" again
@@ -125,11 +130,8 @@ IMAGE
 
 Delete the hello world code example below and replace it with the code from this example:
 
-IMAGE
+![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_4.png?raw=true)
 
-⬇️
-
-IMAGE
 
 ### 4.) Environment Variables
 Your Lambda code will need to know what to look for to execute the function. For example, our Lambda Function will need to know the name of your DynamoDB!
@@ -138,34 +140,45 @@ Your Lambda code will need to know what to look for to execute the function. For
 
 `value = it's what you called your DynamoDB table, open up a new tab and copy and paste the name in this field 🧐`
 
-IMAGE
+![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_6.png?raw=true)
+
 
 Click "Save"
 
-IMAGE
+
+![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_8.png?raw=true)
+
 
 ## Create your API Gateway
 We need our API Gateway to allow our static website to be able to talk to Lambda and DynamoDB
 
 ### 1.) Click Services > API Gateway > Create
-IMGAGE
+
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_1.png?raw=true)
+
 ### 2.) Use the following options for creating your API gateway:
 Something to note, we're choosing REST, as this is more typically used for web services as it uses HTTP methods to relay data.  Websocket relies on knowing the IP and socket details, where as REST only needs to know HTTP verbs like GET, PUT, DELETE etc. A websocket is more likely to be used where connections are known to each other, like a real time chat application.
 
 For the purpose of learning, our Endpoint type will be regional, which means our site will be optimised for users in the same region.
 
-![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_1.png?raw=true)
+Now choose the options in the screenshot below:
+
 ![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_2.png?raw=true)
 
+Now we have an API, we need to create from 'programmable entities'. Without diving into the complexity now, this is how we create the 'method resources' i.e. POST, GET, DELETE etc. For us, we're not fussy, so we want all the HTTP methods.
 
 Then go to Resources > Actions > Create Resource
+
 ![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_3.png?raw=true)
+
 then...
+
 ![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_4.png?raw=true)
 
 Click "Configure as Proxy Resource" check box
 Click "Enable API gateway CORS" check box
 Click "Create Resource"
+
 ![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_5.png?raw=true)
 
 then...
@@ -187,6 +200,5 @@ Stage > name your stage 'dev'
 Click "Deploy"
 
 Here is where your URL appears! Now let's try your todo!
-
 
 Now your trigger has been added to your lammda function! (go check if you want to)
