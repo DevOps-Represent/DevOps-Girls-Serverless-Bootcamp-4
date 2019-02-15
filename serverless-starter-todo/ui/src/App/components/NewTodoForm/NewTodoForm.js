@@ -32,7 +32,6 @@ export default class NewTodoForm extends Component {
         <Button type="submit" color="pink">
           Add
         </Button>
-        ;
       </div>
     );
   }

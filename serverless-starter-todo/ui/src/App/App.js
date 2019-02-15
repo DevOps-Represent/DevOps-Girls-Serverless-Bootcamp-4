@@ -3,9 +3,13 @@ import {
   StyleGuideProvider,
   Footer,
   PageBlock,
-  Card
+  Card,
+  Section,
+  Text,
+  Alert
 } from 'seek-style-guide/react';
 import axios from 'axios';
+import uuid from 'uuid/v4';
 
 import TodoList from './components/TodoList/TodoList';
 import Header from './components/Header/Header';
@@ -17,12 +21,15 @@ export default class App extends Component {
     super();
 
     this.state = {
-      todos: []
+      todos: [],
+      error: ''
     };
 
     this.getTodos = this.getTodos.bind(this);
     this.onCheckboxClick = this.onCheckboxClick.bind(this);
     this.addNewTodo = this.addNewTodo.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+    this.clearError = this.clearError.bind(this);
   }
 
   componentDidMount() {
@@ -30,9 +37,9 @@ export default class App extends Component {
   }
 
   onCheckboxClick(event) {
-    const todoId = parseInt(event.target.value, 10);
+    const todoId = event.target.value;
     const todoList = this.state.todos;
-    const todoIndex = todoList.findIndex(todo => todo.id === todoId);
+    const todoIndex = todoList.findIndex(todo => todo.id.toString() === todoId);
     const targetTodo = todoList[todoIndex];
 
     const newTodoList = [
@@ -44,10 +51,9 @@ export default class App extends Component {
     this.setState({ todos: newTodoList });
   }
 
-  onDelete(event) {
-    const todoId = parseInt(event.target.value, 10);
+  deleteTodo(todoId) {
     const todoList = this.state.todos;
-    const todoIndex = todoList.findIndex(todo => todo.id === todoId);
+    const todoIndex = todoList.findIndex(todo => todo.id.toString() === todoId);
 
     const newTodoList = [
       ...todoList.slice(0, todoIndex),
@@ -57,24 +63,32 @@ export default class App extends Component {
     this.setState({ todos: newTodoList });
   }
 
+  onDelete(event) {
+    event.preventDefault();
+    const todoId = event.target[0].value;
+    this.deleteTodo(todoId);
+  }
+
   addNewTodo(newTodoTitle) {
     const existingTodos = this.state.todos;
 
-    let newId = 1;
-    const idExists = todo => todo.id === newId;
-    while (existingTodos.some(idExists)) {
-      newId++;
-    }
-
     const newTodo = {
-      id: newId,
+      id: uuid(),
       completed: false,
       title: newTodoTitle,
-      userId: 1
     };
+
     const newTodoList = [newTodo, ...existingTodos];
 
     this.setState({ todos: newTodoList });
+    axios.post(`${BASE_URL}/todos`, newTodo).catch(() => {
+      this.deleteTodo(newTodo.id);
+      this.setState({ error: 'Unable to save todo' });
+    });
+  }
+
+  clearError() {
+    this.setState({ error: '' });
   }
 
   getTodos() {
@@ -84,15 +98,31 @@ export default class App extends Component {
   }
 
   render() {
+    const { todos, error } = this.state;
     return (
       <StyleGuideProvider>
         <Header />
         <PageBlock>
-          <Card transparent />
+          <Card transparent>
+            <Section pullout>
+              <Button 
+            </Section>
+          </Card>
           <NewTodoForm addNewTodo={this.addNewTodo} />
 
+          {error && (
+            <Card>
+              <Alert
+                tone="info"
+                level="secondary"
+                message={error}
+                onClose={this.clearError}
+              />
+            </Card>
+          )}
+
           <TodoList
-            todos={this.state.todos}
+            todos={todos}
             onChange={this.onCheckboxClick}
             onDelete={this.onDelete}
           />
