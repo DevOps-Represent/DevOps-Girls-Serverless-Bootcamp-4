@@ -97,7 +97,9 @@ async function readTodos() {
 
   const rows = response.Items;
 
-  const todos = rows.map(row => AWS.DynamoDB.Converter.unmarshall(row));
+  const todos = rows
+    .map(row => AWS.DynamoDB.Converter.unmarshall(row))
+    .sort((a, b) => b.created - a.created);
 
   console.log('read', todos.length, 'todo(s)');
 
@@ -107,8 +109,10 @@ async function readTodos() {
 async function writeTodo({ completed, id, title }) {
   console.log('writing todo', id);
 
+  const created = Date.now();
+
   const parameters = {
-    Item: AWS.DynamoDB.Converter.marshall({ completed, id, title }),
+    Item: AWS.DynamoDB.Converter.marshall({ completed, created, id, title }),
     TableName: TABLE_NAME
   };
 
