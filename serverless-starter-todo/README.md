@@ -280,6 +280,9 @@ functions:
   TodoApi:
     name: serverless-starter-todo-api-dev
     handler: index.handler
+    environment:
+      # Replace these curly brackets with environment variables.
+      {}
     events:
       - http:
           cors: true
@@ -537,10 +540,357 @@ Try to add, edit, and delete some todos!
 
 ![Todo app](../images/finishedUIWithURLBar.png)
 
-## What's next
+## Catchup
 
-Some ideas:
+If you've fallen slightly behind, you can copy the completed `serverless.yml`
+for each step below:
 
-- Authentication and authorisation
-- HTTPS and a nice domain name
-- Completing todos, changing their order, etc.
+[1. Start with template](#1-start-with-template)
+
+<details><summary>serverless.yml</summary><p>
+
+```yaml
+service: serverless-starter-todo
+
+provider:
+  name: aws
+  region: ${opt:region, 'ap-southeast-2'}
+  runtime: nodejs8.10
+  stackName: serverless-starter-todo-dev
+  stage: ${opt:stage, 'dev'}
+  iamRoleStatements:
+    # Replace these square brackets with IAM permissions.
+    []
+
+package:
+  # Replace these curly brackets with files to package.
+  {}
+
+functions:
+  # Replace these curly brackets with a Lambda function.
+  {}
+
+resources:
+  Resources:
+    # Replace these curly brackets with CloudFormation resources.
+    {}
+
+  Outputs:
+    # Replace these curly brackets with CloudFormation outputs.
+    {}
+```
+
+</p></details>
+
+---
+
+[2. Create S3 bucket](#2-create-s3-bucket)
+
+<details><summary>serverless.yml</summary><p>
+
+```yaml
+service: serverless-starter-todo
+
+provider:
+  name: aws
+  region: ${opt:region, 'ap-southeast-2'}
+  runtime: nodejs8.10
+  stackName: serverless-starter-todo-dev
+  stage: ${opt:stage, 'dev'}
+  iamRoleStatements:
+    # Replace these square brackets with IAM permissions.
+    []
+
+package:
+  # Replace these curly brackets with files to package.
+  {}
+
+functions:
+  # Replace these curly brackets with a Lambda function.
+  {}
+
+resources:
+  Resources:
+    WebsiteBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        WebsiteConfiguration:
+          IndexDocument: index.html
+    WebsiteBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Action: s3:GetObject
+              Effect: Allow
+              Principal: '*'
+              Resource:
+                Fn::Join:
+                  - ''
+                  - - 'arn:aws:s3:::'
+                    - Ref: WebsiteBucket
+                    - /*
+        Bucket:
+          Ref: WebsiteBucket
+
+  Outputs:
+    WebsiteBucketName:
+      Value:
+        Ref: WebsiteBucket
+```
+
+</p></details>
+
+---
+
+[3. Upload static website](#3-upload-static-website)
+
+(no file changes)
+
+---
+
+[4. Create API](#4-create-api)
+
+<details><summary>serverless.yml</summary><p>
+
+```yaml
+service: serverless-starter-todo
+
+provider:
+  name: aws
+  region: ${opt:region, 'ap-southeast-2'}
+  runtime: nodejs8.10
+  stackName: serverless-starter-todo-dev
+  stage: ${opt:stage, 'dev'}
+  iamRoleStatements:
+    # Replace these square brackets with IAM permissions.
+    []
+
+package:
+  include:
+    - index.js
+
+functions:
+  TodoApi:
+    name: serverless-starter-todo-api-dev
+    handler: index.handler
+    environment:
+      TABLE_NAME:
+        # Replace these quotes with a DynamoDB table name.
+        ''
+    events:
+      - http:
+          cors: true
+          method: any
+          path: /{proxy+}
+
+resources:
+  Resources:
+    WebsiteBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        WebsiteConfiguration:
+          IndexDocument: index.html
+    WebsiteBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Action: s3:GetObject
+              Effect: Allow
+              Principal: '*'
+              Resource:
+                Fn::Join:
+                  - ''
+                  - - 'arn:aws:s3:::'
+                    - Ref: WebsiteBucket
+                    - /*
+        Bucket:
+          Ref: WebsiteBucket
+
+  Outputs:
+    WebsiteBucketName:
+      Value:
+        Ref: WebsiteBucket
+```
+
+</p></details>
+
+---
+
+[5. Create database table](#5-create-database-table)
+
+<details><summary>serverless.yml</summary><p>
+
+```yaml
+service: serverless-starter-todo
+
+provider:
+  name: aws
+  region: ${opt:region, 'ap-southeast-2'}
+  runtime: nodejs8.10
+  stackName: serverless-starter-todo-dev
+  stage: ${opt:stage, 'dev'}
+  iamRoleStatements:
+    # Replace these square brackets with IAM permissions.
+    []
+
+package:
+  include:
+    - index.js
+
+functions:
+  TodoApi:
+    name: serverless-starter-todo-api-dev
+    handler: index.handler
+    environment:
+      TABLE_NAME:
+        # Replace these quotes with a DynamoDB table name.
+        ''
+    events:
+      - http:
+          cors: true
+          method: any
+          path: /{proxy+}
+
+resources:
+  Resources:
+    WebsiteBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        WebsiteConfiguration:
+          IndexDocument: index.html
+    WebsiteBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Action: s3:GetObject
+              Effect: Allow
+              Principal: '*'
+              Resource:
+                Fn::Join:
+                  - ''
+                  - - 'arn:aws:s3:::'
+                    - Ref: WebsiteBucket
+                    - /*
+        Bucket:
+          Ref: WebsiteBucket
+    DatabaseTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        BillingMode: PAY_PER_REQUEST
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+
+  Outputs:
+    WebsiteBucketName:
+      Value:
+        Ref: WebsiteBucket
+```
+
+</p></details>
+
+---
+
+[6. Wire up the backend](#6-wire-up-the-backend)
+
+<details><summary>serverless.yml</summary><p>
+
+```yaml
+service: serverless-starter-todo
+
+provider:
+  name: aws
+  region: ${opt:region, 'ap-southeast-2'}
+  runtime: nodejs8.10
+  stackName: serverless-starter-todo-dev
+  stage: ${opt:stage, 'dev'}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DeleteItem
+        - dynamodb:PutItem
+        - dynamodb:Scan
+      Resource:
+        Fn::Join:
+          - ''
+          - - 'arn:aws:dynamodb:'
+            - Ref: AWS::Region
+            - ':'
+            - Ref: AWS::AccountId
+            - :table/
+            - Ref: DatabaseTable
+
+package:
+  include:
+    - index.js
+
+functions:
+  TodoApi:
+    name: serverless-starter-todo-api-dev
+    handler: index.handler
+    environment:
+      TABLE_NAME:
+        Ref: DatabaseTable
+    events:
+      - http:
+          cors: true
+          method: any
+          path: /{proxy+}
+
+resources:
+  Resources:
+    WebsiteBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        WebsiteConfiguration:
+          IndexDocument: index.html
+    WebsiteBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Action: s3:GetObject
+              Effect: Allow
+              Principal: '*'
+              Resource:
+                Fn::Join:
+                  - ''
+                  - - 'arn:aws:s3:::'
+                    - Ref: WebsiteBucket
+                    - /*
+        Bucket:
+          Ref: WebsiteBucket
+    DatabaseTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        BillingMode: PAY_PER_REQUEST
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+
+  Outputs:
+    WebsiteBucketName:
+      Value:
+        Ref: WebsiteBucket
+```
+
+</p></details>
+
+---
+
+[7. Wire up the frontend](#7-wire-up-the-frontend)
+
+(no file changes)
