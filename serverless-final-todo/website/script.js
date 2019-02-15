@@ -111,7 +111,9 @@ const newTodoElement = ({ completed, id, title }) => {
   const input = document.createElement('input');
   input.type = 'text';
   input.value = title;
-  input.oninput = debounced(500, () => writeTodo({ completed, id, title }));
+  input.oninput = debounced(500, () =>
+    writeTodo({ completed, id, title: input.value })
+  );
 
   const deleteButton = document.createElement('button');
   deleteButton.textContent = '×';

@@ -67,6 +67,7 @@ const sortTodos = ({ data: { newIndex, oldIndex } }) => {
 };
 
 const submitTodo = async () => {
+  const completed = false;
   const id = Date.now();
   const title = inputElement.value.trim();
   if (title === '') {
@@ -77,9 +78,9 @@ const submitTodo = async () => {
   submitElement.disabled = true;
 
   try {
-    await writeTodo({ completed: false, id, title });
+    await writeTodo({ completed, id, title });
 
-    const todo = newTodoElement({ completed: false, id, title });
+    const todo = newTodoElement({ completed, id, title });
     listElement.appendChild(todo);
     listElement.scrollTop = listElement.scrollHeight;
 
@@ -110,7 +111,9 @@ const newTodoElement = ({ completed, id, title }) => {
   const input = document.createElement('input');
   input.type = 'text';
   input.value = title;
-  input.oninput = debounced(500, () => writeTodo({ completed, id, title }));
+  input.oninput = debounced(500, () =>
+    writeTodo({ completed, id, title: input.value })
+  );
 
   const deleteButton = document.createElement('button');
   deleteButton.textContent = '×';
