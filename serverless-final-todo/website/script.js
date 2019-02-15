@@ -31,13 +31,13 @@ const deleteTodo = id =>
   fetch(`${apiUrl}/todo/${encodeURIComponent(id)}`, { method: 'DELETE' });
 
 const getTodos = () =>
-  fetch(`${apiUrl}/todo`)
+  fetch(`${apiUrl}/todos`)
     .then(response => response.json())
     .then(todos => todos.sort(({ id: a }, { id: b }) => a - b));
 
-const writeTodo = (id, description) =>
+const writeTodo = ({ completed, id, title }) =>
   fetch(`${apiUrl}/todo/${encodeURIComponent(id)}`, {
-    body: description,
+    body: JSON.stringify({ completed, title }),
     method: 'PUT'
   });
 
@@ -67,9 +67,10 @@ const sortTodos = ({ data: { newIndex, oldIndex } }) => {
 };
 
 const submitTodo = async () => {
+  const completed = false;
   const id = Date.now();
-  const description = inputElement.value.trim();
-  if (description === '') {
+  const title = inputElement.value.trim();
+  if (title === '') {
     return;
   }
 
@@ -77,9 +78,9 @@ const submitTodo = async () => {
   submitElement.disabled = true;
 
   try {
-    await writeTodo(id, description);
+    await writeTodo({ completed, id, title });
 
-    const todo = newTodoElement(id, description);
+    const todo = newTodoElement({ completed, id, title });
     listElement.appendChild(todo);
     listElement.scrollTop = listElement.scrollHeight;
 
@@ -101,15 +102,16 @@ const updateSubdomain = debounced(500, () => {
   return loadPage();
 });
 
-const newTodoElement = (id, description) => {
+const newTodoElement = ({ completed, id, title }) => {
   const todo = document.createElement('div');
   todo.className = 'todo-item';
+  todo.setAttribute('data-completed', completed);
   todo.setAttribute('data-id', id);
 
   const input = document.createElement('input');
   input.type = 'text';
-  input.value = description;
-  input.oninput = debounced(500, () => writeTodo(id, input.value));
+  input.value = title;
+  input.oninput = debounced(500, () => writeTodo({ completed, id, title }));
 
   const deleteButton = document.createElement('button');
   deleteButton.textContent = '×';
@@ -119,7 +121,7 @@ const newTodoElement = (id, description) => {
     try {
       await deleteTodo(id);
 
-      listElement.removeChild(deleteButton.parentNode);
+      listElement.removeChild(todo);
     } catch (err) {
       console.error(err);
       deleteButton.disabled = false;
@@ -138,7 +140,7 @@ const redrawTodos = todos => {
   }
 
   todos
-    .map(({ id, description }) => newTodoElement(id, description))
+    .map(({ completed, id, title }) => newTodoElement({ completed, id, title }))
     .forEach(todo => listElement.appendChild(todo));
 };
 

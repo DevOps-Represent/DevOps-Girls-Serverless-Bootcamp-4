@@ -112,9 +112,8 @@ resources:
 
   Outputs:
     WebsiteBucketName:
-      WebsiteBucketName:
-        Value:
-          Ref: WebsiteBucket
+      Value:
+        Ref: WebsiteBucket
 ```
 
 Properties that we want to add:
@@ -201,17 +200,31 @@ S3 -- API Gateway -- Lambda -- DynamoDB
 
 ---
 
-Upload the HTML, CSS and JS files in the `websites` folder to S3:
+Review the output of `serverless deploy`:
 
 ```shell
-aws s3 sync website/ s3://your-bucket-name-here
+# Stack Outputs
+# WebsiteBucketName: serverless-starter-todo-dev-XXXXXX
+```
+
+You'll find the name of your S3 bucket.
+
+---
+
+Upload the HTML, CSS and JS files in the `websites` folder to S3 (use your real
+bucket name):
+
+```shell
+aws s3 sync website/ s3://serverless-starter-todo-dev-XXXXXX
 ```
 
 ---
 
-Try visiting your website (use your real bucket name):
+Try visiting your website (use your real bucket name as the subdomain):
 
-<http://your-bucket-name-here.s3-website-ap-southeast-2.amazonaws.com/>
+```plaintext
+http://serverless-starter-todo-dev-XXXXXX.s3-website-ap-southeast-2.amazonaws.com/
+```
 
 What do you see?
 
@@ -342,9 +355,11 @@ Gateway:
 
 ---
 
-Try out your new API (use your real endpoint, and add `/todo` on the endpoint):
+Try out your new API (use your real endpoint, and add `/todos` on the end):
 
-<https://xxxxxxxxxx.execute-api.ap-southeast-2.amazonaws.com/dev/todo>
+```plaintext
+https://xxxxxxxxxx.execute-api.ap-southeast-2.amazonaws.com/dev/todos
+```
 
 What do you see?
 
@@ -485,9 +500,11 @@ serverless deploy --verbose
 
 ---
 
-Try out your new API (use your real endpoint, and add `/todo` on the endpoint):
+Try out your new API (use your real endpoint, and add `/todos` on the end):
 
-<https://xxxxxxxxxx.execute-api.ap-southeast-2.amazonaws.com/dev/todo>
+```plaintext
+https://xxxxxxxxxx.execute-api.ap-southeast-2.amazonaws.com/dev/todos
+```
 
 What do you see?
 
@@ -510,7 +527,7 @@ S3 -- API Gateway -- Lambda -- DynamoDB
 
 ---
 
-Paste your API URL into the top right input field (without `/todo` on the end):
+Paste your API URL into the top right input field (without `/todos` on the end):
 
 ![Website URL field](../images/website_url_field.png)
 

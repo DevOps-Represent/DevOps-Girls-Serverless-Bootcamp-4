@@ -78,19 +78,19 @@ macOS and Linux (sh):
 ```shell
 subdomain='1234567890'
 
-curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
+curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todos"
 
 # []
 
-curl --data 'Prepare bootcamp content' --request PUT "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo/1"
+curl --data '{"completed": false, "title": "Prepare bootcamp content"}' --request PUT "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo/1"
 
-curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
+curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todos"
 
 # [{"description":"Prepare bootcamp content","id":"1"}]
 
 curl --request DELETE "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo/1"
 
-curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
+curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todos"
 
 # []
 ```
@@ -100,13 +100,13 @@ Windows (PowerShell):
 ```powershell
 $subdomain='1234567890'
 
-Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
+Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todos"
 
 #
 
-Invoke-RestMethod -Body 'Prepare bootcamp content' -Method PUT -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo/1"
+Invoke-RestMethod -Body '{"completed": false, "title": "Prepare bootcamp content"}' -Method PUT -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo/1"
 
-Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
+Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todos"
 
 # description              id
 # -----------              --
@@ -114,7 +114,7 @@ Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-
 
 Invoke-RestMethod -Method DELETE -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo/1"
 
-Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
+Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todos"
 
 #
 ```

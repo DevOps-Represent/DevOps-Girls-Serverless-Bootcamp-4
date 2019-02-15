@@ -5,7 +5,7 @@
 Open in browser:
 
 ```plaintext
-https://xxxxxxxxxx.execute-api.ap-southeast-2.amazonaws.com/dev/todo
+https://xxxxxxxxxx.execute-api.ap-southeast-2.amazonaws.com/xxxxx/todos
 ```
 
 ---
@@ -16,7 +16,7 @@ https://xxxxxxxxxx.execute-api.ap-southeast-2.amazonaws.com/dev/todo
 }
 ```
 
-This path is not handled by the API. Make sure it ends with `/{{stage}}/todo`.
+This path is not handled by the API. Make sure it ends with `/{{stage}}/todos`.
 
 ---
 
@@ -24,7 +24,7 @@ This path is not handled by the API. Make sure it ends with `/{{stage}}/todo`.
 Blank page + 404 response code
 ```
 
-This path is not handled by the API. Make sure it ends with `/{{stage}}/todo`.
+This path is not handled by the API. Make sure it ends with `/{{stage}}/todos`.
 
 ---
 
