@@ -527,15 +527,15 @@ S3 -- API Gateway -- Lambda -- DynamoDB
 
 ---
 
-Paste your API URL into the top right input field (without `/todos` on the end):
+Click the Set API URL link and paste your API URL into the input field (without `/todos` on the end):
 
-![Website URL field](../images/website_url_field.png)
+![Website URL field](../images/URLBar.png)
 
 ---
 
 Try to add, edit, and delete some todos!
 
-![Todo app](../images/todo_app.png)
+![Todo app](../images/finishedUIWithURLBar.png)
 
 ## What's next
 

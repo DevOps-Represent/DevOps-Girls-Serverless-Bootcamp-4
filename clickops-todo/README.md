@@ -34,7 +34,7 @@ Enter a unique bucket name and click "Next". The bucket name has to be globally 
 Click "Next" without making any changes.
 
 ### 4.) Make bucket public
-WE ADVISE NEVER MAKING AN s3 BUCKET PUBLIC! Unless you're using it to host a website, then you need to make it public so people can view your site.
+WE ADVISE NEVER MAKING AN S3 BUCKET PUBLIC! Unless you're using it to host a website, then you need to make it public so people can view your site.
 
 So when you get to the 'permissions' options, this means you're UNTICKING these boxes:
 
@@ -51,7 +51,7 @@ Review the inputs, and click "Create Bucket"
 ### 1.) Choose the S3 bucket just created
 Click on the bucket you just created
 
-You can find the list of s3 buckets in your AWS account via Services > s3
+You can find the list of S3 buckets in your AWS account via Services > S3
 
 ### 2.) Modify bucket properties
 Click on the "Properties" tab, and click on "Static Website Hosting"
@@ -66,7 +66,7 @@ Choose "Use this bucket to host a website", enter "index.html" in the "Index doc
 ## Copy the static website files to S3 bucket and make them public
 
 ### 1.) Copy the static files to S3 bucket
-If you have not yet done so, clone the DevOps-Girls/DevOps-Girls-Bootcamp-4 repo and change working directory to website:
+If you have not yet done so, clone the DevOps-Girls/DevOps-Girls-Bootcamp-4 repo and change working directory to the UI files:
 
 ```
 $ git clone git@github.com:DevOps-Girls/DevOps-Girls-Bootcamp-4.git
@@ -104,12 +104,12 @@ Note down the public URL of the S3 bucket and click on URL
 
 Your website should now look like this!
 
-IMAGE
+![ui](../images/finishedUI.png?raw=true)
 
 <details><summary>Didn't Work?</summary><p>
 
 Here's a couple things to check if you site didn't work
-- Did you select all 3 website files to make them public?
+- Did you select all 6 website files to make them public?
 - Check your bucket policy, is your bucket name arn correct next to "Resource"
 - Are your public access settings correct?
 
@@ -133,7 +133,7 @@ Let's create a database to store our to-dos! We're choosing DynamoDB, which is a
 ---
 
 ## Create a Lambda Function
-Now we need a function that puts new values into our Dynamodb via API requests such as Create, Read, Update and Delete. These are added via our UI (User Interface) - that's the code you uploaded and now hosting in an s3 bucket.
+Now we need a function that puts new values into our Dynamodb via API requests such as Create, Read, Update and Delete. These are added via our UI (User Interface) - that's the code you uploaded and now hosting in an S3 bucket.
 
 ### 1.) Click Services > Lambda > Create Function
 ![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_1.png?raw=true)
@@ -244,9 +244,9 @@ Click "Deploy"
 ![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_endpoint.png?raw=true)
 
 
-Copy and paste this URL into your static website where it says 'API'
+In your static website, click the 'Set API URL' link to bring up the input field, and paste in your new URL.
 
-![yourAPI](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/website_url_field.png?raw=true)
+![yourAPI](../images/URLBar.png?raw=true)
 
 
 Add some TODOS!
@@ -312,7 +312,7 @@ Make sure you grab a volunteer to help if you're stuck!
 
 </p></details>
 
-IMAGE of final UI
+![finished-ui](../images/finishedUIWithURLBar.png?raw=true)
 
 
 Great job, you have exercised the paitence of a saint clicking around the AWS console 😇 , but imagine if you needed to do this 10 more times?! Let's look at a better way of doing things with the Serverless Framework, head to [The Serverless TODO starter repo](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/tree/master/serverless-starter-todo) to work through this.
