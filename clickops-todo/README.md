@@ -70,7 +70,8 @@ If you have not yet done so, clone the DevOps-Girls/DevOps-Girls-Bootcamp-4 repo
 
 ```
 $ git clone git@github.com:DevOps-Girls/DevOps-Girls-Bootcamp-4.git
-$ cd DevOps-Girls-Bootcamp-4/serverless-final-todo/website
+$ cd DevOps-Girls-Bootcamp-4/ui/dist
+
 ```
 
 Copy the files to the S3 bucket created above. If you have the AWS CLI client:
