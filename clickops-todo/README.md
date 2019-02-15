@@ -51,7 +51,7 @@ Review the inputs, and click "Create Bucket"
 ### 1.) Choose the S3 bucket just created
 Click on the bucket you just created
 
-![Configure Bucket](https://github.com/DevOps-Girls/devopsgirls-bootcamp3/blob/master/images/3-3-serverless-static-site/3-3-6-configure-s3-bucket.png?raw=true)
+You can find the list of s3 buckets in your AWS account via Services > s3
 
 ### 2.) Modify bucket properties
 Click on the "Properties" tab, and click on "Static Website Hosting"
@@ -84,14 +84,14 @@ $ aws s3 sync . s3://yourname-devopsgirls-site
 
 If not, got to `https://s3.console.aws.amazon.com/s3/buckets/yourname-devopsgirls-site` and upload the files via the AWS console (keep all the defaults).
 
-They're in the repo you cloned before: ` DevOps-Girls-Bootcamp-4/serverless-final-todo/website  `
+They're in the repo you cloned before: ` DevOps-Girls-Bootcamp-4/ui/dist  `
 
 
 ### 2.) Confirm files have been uploaded
 Navigate to the S3 bucket in the AWS console, and confirm all the files are listed there.
 
 ### 3.) Make files public
-Choose all the files, click on "More" and choose "Make Public". When prompted, confirm by clicking "Make Public" again
+Choose all the files, click on "Actions" and choose "Make Public". When prompted, confirm by clicking "Make Public" again
 
 ![s3 public](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/s3_filepublic.png?raw=true)
 
