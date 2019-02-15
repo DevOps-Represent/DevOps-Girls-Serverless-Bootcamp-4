@@ -1,13 +1,13 @@
 service: serverless-final-todo
 
 custom:
-  tableName: ${self:service}-${opt:stage}
+  tableName: ${self:service}-${self:provider.stage}
 
 provider:
   name: aws
   region: ${opt:region, 'ap-southeast-2'}
   runtime: nodejs8.10
-  stackName: ${self:service}-${opt:stage}
+  stackName: ${self:service}-${self:provider.stage}
   stage: ${opt:stage, 'dev'}
   usagePlan:
     throttle:
@@ -35,7 +35,7 @@ package:
 
 functions:
   TodoApi:
-    name: serverless-final-todo-api-${opt:stage}
+    name: serverless-final-todo-api-${self:provider.stage}
     handler: index.handler
     environment:
       TABLE_NAME:
