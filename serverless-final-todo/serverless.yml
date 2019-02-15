@@ -35,7 +35,7 @@ package:
 
 functions:
   TodoApi:
-    name: serverless-final-todo-api-${self:provider.stage}
+    name: ${self:service}-api-${self:provider.stage}
     handler: index.handler
     environment:
       TABLE_NAME:
