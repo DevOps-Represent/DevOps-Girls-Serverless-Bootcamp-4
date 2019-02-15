@@ -4,11 +4,7 @@ import {
   Footer,
   PageBlock,
   Card,
-  Section,
-  Alert,
-  Text,
-  TextLink,
-  TextField
+  Alert
 } from 'seek-style-guide/react';
 import axios from 'axios';
 import uuid from 'uuid/v4';
@@ -16,6 +12,7 @@ import uuid from 'uuid/v4';
 import TodoList from './components/TodoList/TodoList';
 import Header from './components/Header/Header';
 import NewTodoForm from './components/NewTodoForm/NewTodoForm';
+import SetApiForm from './components/SetApiForm/SetApiForm';
 import { PLACEHOLDER_BASE_URL } from '../config';
 
 export default class App extends Component {
@@ -29,15 +26,19 @@ export default class App extends Component {
       showSetApiForm: false
     };
 
-    this.getTodos = this.getTodos.bind(this);
-    this.onCheckboxClick = this.onCheckboxClick.bind(this);
-    this.addNewTodo = this.addNewTodo.bind(this);
-    this.onDelete = this.onDelete.bind(this);
-    this.clearError = this.clearError.bind(this);
-    this.onSetApiClick = this.onSetApiClick.bind(this);
-    this.handleApiUrlChange = this.handleApiUrlChange.bind(this);
-    this.checkForSavedUrl = this.checkForSavedUrl.bind(this);
-    this.clearErrorIfEquals = this.clearErrorIfEquals.bind(this);
+    [
+      'getTodos',
+      'onCheckboxClick',
+      'addNewTodo',
+      'onDelete',
+      'clearError',
+      'onSetApiClick',
+      'handleApiUrlChange',
+      'checkForSavedUrl',
+      'clearErrorIfEquals'
+    ].map(fnName => {
+      this[fnName] = this[fnName].bind(this);
+    });
   }
 
   componentDidMount() {
@@ -172,25 +173,12 @@ export default class App extends Component {
         <Header />
 
         <PageBlock>
-          <Card>
-            <Section>
-              <Text>
-                <TextLink
-                  chevron={showSetApiForm ? 'up' : 'down'}
-                  onClick={this.onSetApiClick}
-                >
-                  Set API URL
-                </TextLink>
-              </Text>
-              {showSetApiForm && (
-                <TextField
-                  id="apiUrl"
-                  value={apiUrl}
-                  onChange={this.handleApiUrlChange}
-                />
-              )}
-            </Section>
-          </Card>
+          <SetApiForm
+            showSetApiForm={showSetApiForm}
+            onSetApiClick={this.onSetApiClick}
+            apiUrl={apiUrl}
+            handleApiUrlChange={this.handleApiUrlChange}
+          />
 
           <NewTodoForm addNewTodo={this.addNewTodo} />
 
