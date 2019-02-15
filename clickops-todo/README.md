@@ -72,7 +72,11 @@ Choose "Use this bucket to host a website", enter "index.html" in the "Index doc
 
 ### 1.) Copy the static files to S3 bucket
 
-Download the `ui-dist.zip` file from our DevOps-Girls repository and unzip it.
+Download the `ui-dist.zip` file from our DevOps-Girls repository:
+
+<https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/ui-dist.zip>
+
+Unzip `ui-dist.zip`.
 
 Go to `https://s3.console.aws.amazon.com/s3/buckets/yourname-devopsgirls-site` and upload the files via the AWS console (keep all the defaults).
 
