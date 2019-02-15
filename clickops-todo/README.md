@@ -51,7 +51,7 @@ Review the inputs, and click "Create Bucket"
 ### 1.) Choose the S3 bucket just created
 Click on the bucket you just created
 
-You can find the list of s3 buckets in your AWS account via Services > s3
+You can find the list of S3 buckets in your AWS account via Services > S3
 
 ### 2.) Modify bucket properties
 Click on the "Properties" tab, and click on "Static Website Hosting"
@@ -66,7 +66,7 @@ Choose "Use this bucket to host a website", enter "index.html" in the "Index doc
 ## Copy the static website files to S3 bucket and make them public
 
 ### 1.) Copy the static files to S3 bucket
-If you have not yet done so, clone the DevOps-Girls/DevOps-Girls-Bootcamp-4 repo and change working directory to website:
+If you have not yet done so, clone the DevOps-Girls/DevOps-Girls-Bootcamp-4 repo and change working directory to the UI files:
 
 ```
 $ git clone git@github.com:DevOps-Girls/DevOps-Girls-Bootcamp-4.git
@@ -109,7 +109,7 @@ IMAGE
 <details><summary>Didn't Work?</summary><p>
 
 Here's a couple things to check if you site didn't work
-- Did you select all 3 website files to make them public?
+- Did you select all 6 website files to make them public?
 - Check your bucket policy, is your bucket name arn correct next to "Resource"
 - Are your public access settings correct?
 
@@ -133,7 +133,7 @@ Let's create a database to store our to-dos! We're choosing DynamoDB, which is a
 ---
 
 ## Create a Lambda Function
-Now we need a function that puts new values into our Dynamodb via API requests such as Create, Read, Update and Delete. These are added via our UI (User Interface) - that's the code you uploaded and now hosting in an s3 bucket.
+Now we need a function that puts new values into our Dynamodb via API requests such as Create, Read, Update and Delete. These are added via our UI (User Interface) - that's the code you uploaded and now hosting in an S3 bucket.
 
 ### 1.) Click Services > Lambda > Create Function
 ![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_1.png?raw=true)
