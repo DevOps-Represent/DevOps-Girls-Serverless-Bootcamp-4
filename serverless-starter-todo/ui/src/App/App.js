@@ -35,7 +35,8 @@ export default class App extends Component {
       'onSetApiClick',
       'handleApiUrlChange',
       'checkForSavedUrl',
-      'clearErrorIfEquals'
+      'clearErrorIfEquals',
+      'setTodo'
     ].map(fnName => {
       this[fnName] = this[fnName].bind(this);
     });
@@ -60,14 +61,23 @@ export default class App extends Component {
     }
   }
 
+  setTodo(todo, errMessage, errHandler) {
+    const url = this.state.apiUrl || PLACEHOLDER_BASE_URL;
+
+    axios
+      .put(`${url}/todo/${todo.id}`, todo)
+      .then(() => this.clearErrorIfEquals(errMessage))
+      .catch(errHandler);
+  }
+
   onCheckboxClick(event) {
     const todoId = event.target.value;
-    const { todos: todoList, apiUrl } = this.state;
-    const url = apiUrl || PLACEHOLDER_BASE_URL;
+    const { todos: todoList } = this.state;
     const todoIndex = todoList.findIndex(todo => todo.id.toString() === todoId);
     const targetTodo = todoList[todoIndex];
 
     const newTodo = { ...targetTodo, completed: !targetTodo.completed };
+    const errMessage = 'Unable to update todo status';
 
     const newTodoList = [
       ...todoList.slice(0, todoIndex),
@@ -75,18 +85,14 @@ export default class App extends Component {
       ...todoList.slice(todoIndex + 1)
     ];
 
-    this.setState({ todos: newTodoList });
+    const errHandler = () =>
+      this.setState({
+        error: errMessage,
+        todos: todoList
+      });
 
-    const errMessage = 'Unable to update todo status';
-    axios
-      .put(`${url}/todo/${newTodo.id}`, newTodo)
-      .then(() => this.clearErrorIfEquals(errMessage))
-      .catch(() =>
-        this.setState({
-          error: errMessage,
-          todos: todoList
-        })
-      );
+    this.setState({ todos: newTodoList });
+    this.setTodo(newTodo, errMessage, errHandler);
   }
 
   deleteTodo(todoId) {
@@ -114,8 +120,8 @@ export default class App extends Component {
   }
 
   addNewTodo(newTodoTitle) {
-    const { todos: existingTodos, apiUrl } = this.state;
-    const url = apiUrl || PLACEHOLDER_BASE_URL;
+    const { todos: existingTodos } = this.state;
+    const errMessage = 'Unable to save todo';
 
     const newTodo = {
       id: uuid(),
@@ -126,13 +132,15 @@ export default class App extends Component {
     const newTodoList = [newTodo, ...existingTodos];
 
     this.setState({ todos: newTodoList });
-    axios
-      .post(`${url}/todos`, newTodo)
-      .then(() => this.clearErrorIfEquals('Unable to save todo'))
-      .catch(() => {
-        this.deleteTodo(newTodo.id);
-        this.setState({ error: 'Unable to save todo' });
+
+    const errHandler = () =>
+      this.setState({
+        error: errMessage,
+        todos: existingTodos
       });
+
+    this.setState({ todos: newTodoList });
+    this.setTodo(newTodo, errMessage, errHandler);
   }
 
   clearError() {
