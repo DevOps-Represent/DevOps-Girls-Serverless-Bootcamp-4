@@ -1,13 +1,27 @@
 'use strict';
 
-const TABLE_NAME = process.env.TABLE_NAME;
+const TABLE_NAME = process.env.TABLE_NAME.trim();
 
 const AWS = require('aws-sdk');
 
 const dynamoDb = new AWS.DynamoDB();
 
-async function handleCorsRequest(event) {
-  const response = await handleRequest(event);
+async function handler(event) {
+  let response;
+
+  try {
+    response = await handleRequest(event);
+  } catch (error) {
+    console.error('error handling request:', error);
+
+    response = {
+      body: JSON.stringify({
+        error: error.toString(),
+        message: 'error handling request'
+      }),
+      statusCode: 500
+    };
+  }
 
   response.headers = response.headers || {};
   response.headers['Access-Control-Allow-Origin'] = '*';
@@ -17,30 +31,39 @@ async function handleCorsRequest(event) {
 }
 
 function handleRequest(event) {
-  const body = event.body;
+  if (TABLE_NAME === '') {
+    throw Error(
+      `I don't have a TABLE_NAME environment variable, so I don't know where to read and write your todos.`
+    );
+  }
+
   const method = event.httpMethod.toUpperCase();
   const path = event.path.toLowerCase();
 
   console.log('handling request', method, path);
 
-  if (path.match(/^\/todo\/?$/) && method === 'GET') {
+  const baseMatch = path.match(/^\/todos\/?$/);
+  const idMatch = path.match(/^\/todo\/([^/]+)\/?$/);
+
+  if (method === 'DELETE' && idMatch) {
+    return deleteTodo(idMatch[1]);
+  }
+
+  if (method === 'GET' && baseMatch) {
     return readTodos();
   }
 
-  const idMatch = path.match(/^\/todo\/([a-zA-Z0-9-]+)$/);
+  if (method === 'PUT' && idMatch) {
+    if (!event.body) {
+      return {
+        body: 'Your request is missing a body.',
+        statusCode: 400
+      };
+    }
 
-  if (!idMatch) {
-    return { statusCode: 404 };
-  }
+    const { completed, title } = JSON.parse(event.body);
 
-  const id = idMatch[1];
-
-  if (method === 'DELETE') {
-    return deleteTodo(id);
-  }
-
-  if (method === 'PUT') {
-    return writeTodo(id, body);
+    return writeTodo({ completed, id: idMatch[1], title });
   }
 
   return { statusCode: 404 };
@@ -81,11 +104,11 @@ async function readTodos() {
   return { body: JSON.stringify(todos), statusCode: 200 };
 }
 
-async function writeTodo(id, description) {
+async function writeTodo({ completed, id, title }) {
   console.log('writing todo', id);
 
   const parameters = {
-    Item: AWS.DynamoDB.Converter.marshall({ id, description }),
+    Item: AWS.DynamoDB.Converter.marshall({ completed, id, title }),
     TableName: TABLE_NAME
   };
 
@@ -98,5 +121,5 @@ async function writeTodo(id, description) {
 }
 
 module.exports = {
-  handleCorsRequest
+  handler
 };

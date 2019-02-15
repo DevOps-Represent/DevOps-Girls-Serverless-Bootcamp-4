@@ -6,6 +6,28 @@ Starter template for a todo app.
 S3 -- API Gateway -- Lambda -- DynamoDB
 ```
 
+> **Disclaimer:** for ease of use, the API will have CORS fully enabled, reveals
+> server error details to the client, and has no authentication. You shouldn't
+> have such a configuration on an actual production system.
+
+## Prerequisites
+
+1. [AWS CLI](https://aws.amazon.com/cli/)
+
+1. AWS credentials on your computer:
+
+   ```shell
+   aws configure
+   ```
+
+1. [Node.js + npm](https://nodejs.org/)
+
+1. Serverless Framework:
+
+   ```shell
+   npm install -g serverless
+   ```
+
 ## 1. Start with template
 
 Copy starter files from our template:
@@ -31,14 +53,19 @@ service: serverless-starter-todo
 
 provider:
   name: aws
+  region: ${opt:region, 'ap-southeast-2'}
   runtime: nodejs8.10
   stackName: serverless-starter-todo-dev
-  stage: dev
+  stage: ${opt:stage, 'dev'}
+  iamRoleStatements:
+    # Replace these square brackets with IAM permissions.
+    []
 ```
 
 - We'll be running on AWS
 - We're using the Node.js JavaScript runtime for our API
-- We'll default the API's stage to pre-production (**dev**)
+- We'll default the application to run in Sydney (**ap-southeast-2**)
+- We'll default the application stage to pre-production (**dev**)
 
 ---
 
@@ -50,7 +77,11 @@ whenever we run `serverless deploy`.
 ```yaml
 resources:
   Resources:
-    # remove these brackets and add some CloudFormation resources
+    # Replace these curly brackets with CloudFormation resources.
+    {}
+
+  Outputs:
+    # Replace these curly brackets with CloudFormation outputs.
     {}
 ```
 
@@ -78,6 +109,11 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         # add properties here
+
+  Outputs:
+    WebsiteBucketName:
+      Value:
+        Ref: WebsiteBucket
 ```
 
 Properties that we want to add:
@@ -90,23 +126,28 @@ Properties that we want to add:
 Add a bucket policy below it:
 
 ```yaml
-WebsiteBucketPolicy:
-  Type: AWS::S3::BucketPolicy
-  Properties:
-    PolicyDocument:
-      Version: '2012-10-17'
-      Statement:
-        - Action: s3:GetObject
-          Effect: Allow
-          Principal: '*'
-          Resource:
-            Fn::Join:
-              - ''
-              - - 'arn:aws:s3:::'
-                - Ref: WebsiteBucket
-                - /*
-    Bucket:
-      Ref: WebsiteBucket
+resources:
+  Resources:
+    WebsiteBucket:
+      # same as above
+      ...
+    WebsiteBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Action: s3:GetObject
+              Effect: Allow
+              Principal: '*'
+              Resource:
+                Fn::Join:
+                  - ''
+                  - - 'arn:aws:s3:::'
+                    - Ref: WebsiteBucket
+                    - /*
+        Bucket:
+          Ref: WebsiteBucket
 ```
 
 This allows anyone to read the files in the bucket, which is what we want,
@@ -117,7 +158,7 @@ as the website should be accessible from any device or browser.
 Let's run a `serverless deploy` to create our S3 bucket:
 
 ```shell
-serverless deploy --region ap-southeast-2 --verbose
+serverless deploy --verbose
 
 # Service Information
 # service: serverless-starter-todo
@@ -159,17 +200,31 @@ S3 -- API Gateway -- Lambda -- DynamoDB
 
 ---
 
-Upload the HTML, CSS and JS files in the `websites` folder to S3:
+Review the output of `serverless deploy`:
 
 ```shell
-aws s3 sync website/ s3://your-bucket-name-here
+# Stack Outputs
+# WebsiteBucketName: serverless-starter-todo-dev-XXXXXX
+```
+
+You'll find the name of your S3 bucket.
+
+---
+
+Upload the HTML, CSS and JS files in the `ui/dist` folder to S3 (use your real
+bucket name):
+
+```shell
+aws s3 sync ui/dist/ s3://serverless-starter-todo-dev-XXXXXX
 ```
 
 ---
 
-Try visiting your website (use your real bucket name):
+Try visiting your website (use your real bucket name as the subdomain):
 
-<http://your-bucket-name-here.s3-website-ap-southeast-2.amazonaws.com/>
+```plaintext
+http://serverless-starter-todo-dev-XXXXXX.s3-website-ap-southeast-2.amazonaws.com/
+```
 
 What do you see?
 
@@ -191,7 +246,10 @@ S3 -- API Gateway -- Lambda -- DynamoDB
 ```
 
 To create a serverless API with API Gateway and Lambda, we need to add two new
-sections to our `serverless.yml`: **package** and **functions**.
+sections to our `serverless.yml`:
+
+- **package**
+- **functions**
 
 ---
 
@@ -200,7 +258,7 @@ What do you think this section does?
 ```yaml
 package:
   include:
-    - handler.js
+    - index.js
 ```
 
 <details><summary>Show</summary><p>
@@ -221,7 +279,7 @@ How about this section?
 functions:
   TodoApi:
     name: serverless-starter-todo-api-dev
-    handler: handler.handleCorsRequest
+    handler: index.handler
     events:
       - http:
           cors: true
@@ -234,6 +292,18 @@ functions:
 The **functions** section describes a Lambda function that can respond to HTTP
 requests.
 
+**index.handler** tells a (JavaScript) Lambda function to open a _index.js_ file
+and call the **handler** function when a HTTP request is received.
+
+We have configured API Gateway to allow **any** method, and any path with the
+**{proxy+}** path variable. This is [Lambda proxy integration].
+
+In short, it means that all types of requests are sent to our Lambda function,
+and our code is responsible for checking the request method and path, and
+figuring out what to do.
+
+[lambda proxy integration]: https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-set-up-simple-proxy.html#lambda-proxy-integration-with-proxy-resource
+
 </p></details>
 
 ---
@@ -241,7 +311,7 @@ requests.
 Run the `serverless deploy` command:
 
 ```shell
-serverless deploy --region ap-southeast-2 --verbose
+serverless deploy --verbose
 
 # Service Information
 # service: serverless-starter-todo
@@ -285,9 +355,11 @@ Gateway:
 
 ---
 
-Try out your new API (use your real service endpoint):
+Try out your new API (use your real endpoint, and add `/todos` on the end):
 
-<https://xxxxxxxxxx.execute-api.ap-southeast-2.amazonaws.com/dev/todo>
+```plaintext
+https://xxxxxxxxxx.execute-api.ap-southeast-2.amazonaws.com/dev/todos
+```
 
 What do you see?
 
@@ -295,18 +367,19 @@ What do you see?
 You should see something like this:
 
 ```json
-{ "message": "Internal server error" }
+{
+  "error": "Error: I don't have a TABLE_NAME environment variable, so I don't know where to read and write your todos.",
+  "message": "error handling request"
+}
 ```
-
-Let's have a look at the logs to see what happened:
-
-<https://ap-southeast-2.console.aws.amazon.com/cloudwatch/home?region=ap-southeast-2#logEventViewer:group=/aws/lambda/serverless-starter-todo-api-dev>
-
-![Lambda log error](../images/lambda_log_error.png)
 
 The issue with our Lambda function is that it's missing the name of the
 database table to store our todos in. That's because we haven't created the
 database table yet!
+
+We can also look at the logs to see what happened:
+
+<https://ap-southeast-2.console.aws.amazon.com/cloudwatch/home?region=ap-southeast-2#logEventViewer:group=/aws/lambda/serverless-starter-todo-api-dev>
 
 </p></details>
 
@@ -353,7 +426,7 @@ Properties that we want to add:
 Run `serverless deploy` to create your database table:
 
 ```shell
-serverless deploy --region ap-southeast-2 --verbose
+serverless deploy --verbose
 ```
 
 ---
@@ -365,45 +438,96 @@ Review your changes in the AWS web interface:
 What do you see?
 
 <details><summary>Show</summary><p>
-You should see a new DynamoDB table:
+You should see a new database table:
 
 ![DynamoDB table create](../images/dynamodb_table_create.png)
 
 </p></details>
 
-## 6. Connect the dots
+## 6. Wire up the backend
 
 ```plaintext
 S3 -- API Gateway -- Lambda -- DynamoDB
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-```
-
-Add your database table name as an environment variable for your Lambda
-function:
-
-```yaml
-functions:
-  TodoApi:
-    name: serverless-starter-todo-api-dev
-    handler: handler.handleCorsRequest
-    environment:
-      TABLE_NAME: your-table-name-here
-    events:
-      - http:
-          cors: true
-          method: any
-          path: /{proxy+}
-```
-
-Run `serverless deploy` to update your Lambda function:
-
-```shell
-serverless deploy --region ap-southeast-2 --verbose
+                            ^^
 ```
 
 ---
 
-Paste your API URL into the top right textbox of your website:
+Add permissions for your Lambda function to communicate with your new table:
+
+```yaml
+provider:
+  ...
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DeleteItem
+        - dynamodb:PutItem
+        - dynamodb:Scan
+      Resource:
+        Fn::Join:
+          - ''
+          - - 'arn:aws:dynamodb:'
+            - Ref: AWS::Region
+            - ':'
+            - Ref: AWS::AccountId
+            - :table/
+            - Ref: DatabaseTable
+```
+
+---
+
+Add the table's name as an environment variable, so your Lambda function knows
+where to store the todos:
+
+```yaml
+functions:
+  TodoApi:
+    ...
+    environment:
+      TABLE_NAME:
+        Ref: DatabaseTable
+```
+
+---
+
+Run `serverless deploy` to create the links between your Lambda function and
+DynamoDB table:
+
+```shell
+serverless deploy --verbose
+```
+
+---
+
+Try out your new API (use your real endpoint, and add `/todos` on the end):
+
+```plaintext
+https://xxxxxxxxxx.execute-api.ap-southeast-2.amazonaws.com/dev/todos
+```
+
+What do you see?
+
+<details><summary>Show</summary><p>
+
+You should see something like this:
+
+```json
+[]
+```
+
+</p></details>
+
+## 7. Wire up the frontend
+
+```plaintext
+S3 -- API Gateway -- Lambda -- DynamoDB
+   ^^
+```
+
+---
+
+Paste your API URL into the top right input field (without `/todos` on the end):
 
 ![Website URL field](../images/website_url_field.png)
 
@@ -413,7 +537,7 @@ Try to add, edit, and delete some todos!
 
 ![Todo app](../images/todo_app.png)
 
-## A. What's next
+## What's next
 
 Some ideas:
 

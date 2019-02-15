@@ -3,9 +3,31 @@
 Complete template for a todo app. You may compare your solution to this example
 after you're done, or use it as a reference if you get stuck.
 
-DISCLAIMER: for ease of use, the API has CORS fully enabled and no
-authentication. You probably wouldn't have such a configuration on an actual
-production system.
+```plaintext
+S3 -- API Gateway -- Lambda -- DynamoDB
+```
+
+> **Disclaimer:** for ease of use, the API will have CORS fully enabled, reveals
+> server error details to the client, and has no authentication. You shouldn't
+> have such a configuration on an actual production system.
+
+## Prerequisites
+
+1. [AWS CLI](https://aws.amazon.com/cli/)
+
+1. AWS credentials on your computer:
+
+   ```shell
+   aws configure
+   ```
+
+1. [Node.js + npm](https://nodejs.org/)
+
+1. Serverless Framework:
+
+   ```shell
+   npm install -g serverless
+   ```
 
 ## Create from template
 
@@ -24,7 +46,7 @@ cd serverless-final-todo
 Deploy API stack:
 
 ```shell
-serverless deploy --region ap-southeast-2 --stage dev --verbose
+serverless deploy --verbose
 
 # Service Information
 # service: serverless-final-todo
@@ -56,19 +78,19 @@ macOS and Linux (sh):
 ```shell
 subdomain='1234567890'
 
-curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
+curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todos"
 
 # []
 
-curl --data 'Prepare bootcamp content' --request PUT "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo/1"
+curl --data '{"completed": false, "title": "Prepare bootcamp content"}' --request PUT "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo/1"
 
-curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
+curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todos"
 
 # [{"description":"Prepare bootcamp content","id":"1"}]
 
 curl --request DELETE "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo/1"
 
-curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
+curl --request GET "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todos"
 
 # []
 ```
@@ -78,13 +100,13 @@ Windows (PowerShell):
 ```powershell
 $subdomain='1234567890'
 
-Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
+Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todos"
 
 #
 
-Invoke-RestMethod -Body 'Prepare bootcamp content' -Method PUT -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo/1"
+Invoke-RestMethod -Body '{"completed": false, "title": "Prepare bootcamp content"}' -Method PUT -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo/1"
 
-Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
+Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todos"
 
 # description              id
 # -----------              --
@@ -92,7 +114,7 @@ Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-
 
 Invoke-RestMethod -Method DELETE -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo/1"
 
-Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todo"
+Invoke-RestMethod -Method GET -Uri "https://$subdomain.execute-api.ap-southeast-2.amazonaws.com/dev/todos"
 
 #
 ```

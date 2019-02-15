@@ -22,15 +22,6 @@ simple website that will have some todos (classic!) and gradually move to more
 complex things, like an event that will be triggered when a todo is overdue,
 added, edited or removed.
 
-We will be building on our project throughout the day and it's all good if you
-need help catching up because we will have a GitHub repo that will help you make
-sure you maintain progress.
-
----
-
-NOTE, this event has limited spots - please update your RSVP if you're unable to
-attend so we can ensure as many people can attend as possible.
-
 ---
 
 What will you expect from the day? You'll have a team of supportive people from
@@ -39,17 +30,25 @@ our industry dedicating their Saturday to your learning and development.
 You'll be able to learn in a multi-modal format, including hands on and you'll
 have access to all the learning materials.
 
-You'll have an opportunity to meet and network with people in your industry.
-
-We'll have a room with video games and activities for kids.
-
-The bootcamp will be fully catered - note dietary requirements in your RSVP
-
 Things you'll need:
 
 - a laptop! (but if this is not possible, send us a message)
 - an AWS account - (See Resources below)
 
+---
+
+## Learning session content
+
+1. [Click-Ops Todo](clickops-todo): walkthrough of manually creating a todo app
+   through the AWS web interface
+
+1. [Serverless Starter Todo](serverless-starter-todo): walkthrough of creating a
+   todo app with the Serverless Framework
+
+1. [Serverless Final Todo](serverless-final-todo): completed version of a todo
+   app for reference
+   
+---
 ## Schedule
 
 ```plaintext
@@ -81,18 +80,7 @@ Final Learning Session & 'Next Steps'
 Networking and drinks (self funded)
 OPTIONAL - Venue TBC
 ```
-
-## Learning session content
-
-1. [Click-Ops Todo](clickops-todo): walkthrough of manually creating a todo app
-   through the AWS web interface
-
-1. [Serverless Starter Todo](serverless-starter-todo): walkthrough of creating a
-   todo app with the Serverless Framework
-
-1. [Serverless Final Todo](serverless-final-todo): completed version of a todo
-   app for reference
-
+---
 ## Resources
 
 ### Command Line on Code Academy (first lesson is enough)
