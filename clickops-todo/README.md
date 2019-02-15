@@ -64,7 +64,7 @@ Choose "Use this bucket to host a website", enter "index.html" in the "Index doc
 ## Copy the static website files to S3 bucket and make them public
 
 ### 1.) Copy the static files to S3 bucket
-If you have not yet done so, clone the DevOps-Girls/devopsgirls-bootcamp3 repo and change working directory to website_files:
+If you have not yet done so, clone the DevOps-Girls/DevOps-Girls-Bootcamp-4 repo and change working directory to website:
 
 ```
 $ git clone git@github.com:DevOps-Girls/DevOps-Girls-Bootcamp-4.git
@@ -111,8 +111,10 @@ Let's create a database to store our to-dos! We're choosing DynamoDB, which is a
 ### 1.) Click Services > DynamoDB > Create Table
 ![DynamoDB](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/dynamo_1.png?raw=true)
 ### 2.) Enter table details:
-	- Table Name: devops-girls-[your name]
-	- Primary Key: id (This is the 'key' in your 'key value pair')
+
+- Table Name: devops-girls-[your name]
+- Primary Key: id (This is the 'key' in your 'key value pair')
+
 ![DynamoDB](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/dynamo_2.png?raw=true)
 
 
@@ -146,6 +148,7 @@ Think back to the [architecture diagram](https://github.com/DevOps-Girls/DevOps-
 
 Click on the name of your Lambda Function at the top of the page
 
+![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_code.png?raw=true)
 
 Delete the hello world code example below and replace it with the code from this example:
 
@@ -163,7 +166,7 @@ Your Lambda code will need to know what to look for to execute the function. For
 ![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_6.png?raw=true)
 
 
-Click "Save"
+Click "Save", it's in top right of your screen
 
 
 ![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_8.png?raw=true)
@@ -189,13 +192,13 @@ Now we have an API, we need to create from 'programmable entities'. Without divi
 
 Then go to Resources > Actions > Create Resource
 
-IMAGE
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_resource.png?raw=true)
 
 - Click "Configure as Proxy Resource" check box
 
 - Click "Enable API gateway CORS" check box
 
-* Note that the resource name and path fields now have values, keep those in there. *
+Note that the resource name and path fields now have values, keep those in there. 
 
 - Click "Create Resource"
 
@@ -213,7 +216,7 @@ Click "Save"
 
 Resources > Actions > Deploy API
 
-![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_5.png?raw=true)
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_deploy.png?raw=true)
 
 Stage > name your stage 'dev'
 
