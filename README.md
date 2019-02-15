@@ -65,7 +65,7 @@ Key concepts
 Lunch
 
 1.15pm-2pm
-Palette cleanser - TBC
+Palette cleanser - Theresa Neate
 
 2pm-3pm
 2nd Learning Session
