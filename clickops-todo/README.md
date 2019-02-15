@@ -15,6 +15,8 @@ Let's take a look at how this hangs together and what we're going to be creating
 
 ![Architecture](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/architecture.png?raw=true)
 
+---
+
 ## Create S3 bucket as a web server
 
 ### 1.) Creating an S3 Bucket
@@ -112,6 +114,8 @@ Here's a couple things to check if you site didn't work
 
 </p></details>
 
+---
+
 ## Create a DynamoDB
 Let's create a database to store our to-dos! We're choosing DynamoDB, which is a fully managed NoSQL database. Fully managed means AWS manage scaling in response to demand, patching or configuration.
 'NoSQL' means the data is stored using key value pairs, which is different to an SQL database which is a table (think excel spreadsheet). 
@@ -125,6 +129,7 @@ Let's create a database to store our to-dos! We're choosing DynamoDB, which is a
 
 ![DynamoDB](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/dynamo_2.png?raw=true)
 
+---
 
 ## Create a Lambda Function
 Now we need a function that puts new values into our Dynamodb via API requests such as Create, Read, Update and Delete. These are added via our UI (User Interface) - that's the code you uploaded and now hosting in an s3 bucket.
@@ -179,6 +184,7 @@ Click "Save", it's in top right of your screen
 
 ![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_8.png?raw=true)
 
+---
 
 ## Create your API Gateway
 We need our API Gateway to allow our static website to be able to talk to Lambda and DynamoDB
