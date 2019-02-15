@@ -5,6 +5,5 @@ npm-debug.log
 .eslintrc
 .prettierrc
 coverage/
-dist/
 report/
 # end managed by sku
