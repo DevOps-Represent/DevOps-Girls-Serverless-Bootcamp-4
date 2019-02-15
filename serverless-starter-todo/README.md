@@ -2,13 +2,31 @@
 
 Starter template for a todo app.
 
+```plaintext
+S3 -- API Gateway -- Lambda -- DynamoDB
+```
+
 > **Disclaimer:** for ease of use, the API will have CORS fully enabled, reveals
 > server error details to the client, and has no authentication. You shouldn't
 > have such a configuration on an actual production system.
 
-```plaintext
-S3 -- API Gateway -- Lambda -- DynamoDB
-```
+## Prerequisites
+
+1. [AWS CLI](https://aws.amazon.com/cli/)
+
+1. AWS credentials on your computer:
+
+   ```shell
+   aws configure
+   ```
+
+1. [Node.js + npm](https://nodejs.org/)
+
+1. Serverless Framework:
+
+   ```shell
+   npm install -g serverless
+   ```
 
 ## 1. Start with template
 
@@ -502,7 +520,7 @@ Try to add, edit, and delete some todos!
 
 ![Todo app](../images/todo_app.png)
 
-## A. What's next
+## What's next
 
 Some ideas:
 
