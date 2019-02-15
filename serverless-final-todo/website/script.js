@@ -62,10 +62,6 @@ const loadPage = async () => {
   redrawTodos(todos);
 };
 
-const sortTodos = ({ data: { newIndex, oldIndex } }) => {
-  // TODO: implement
-};
-
 const submitTodo = async () => {
   const completed = false;
   const id = Date.now();
@@ -158,8 +154,6 @@ formElement.addEventListener('submit', event => {
 inputElement.addEventListener('input', updateInput);
 
 subdomainElement.addEventListener('input', updateSubdomain);
-
-// sortable.on('sortable:stop', sortTodos);
 
 const rawParam = new URLSearchParams(window.location.search).get('api');
 
