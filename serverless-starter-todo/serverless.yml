@@ -10,10 +10,6 @@ provider:
     # Replace these square brackets with IAM permissions.
     []
 
-package:
-  # Replace these curly brackets with files to package.
-  {}
-
 functions:
   # Replace these curly brackets with a Lambda function.
   {}

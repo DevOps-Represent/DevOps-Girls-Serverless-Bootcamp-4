@@ -29,10 +29,6 @@ provider:
             - :table/
             - Ref: DatabaseTable
 
-package:
-  include:
-    - index.js
-
 functions:
   TodoApi:
     name: ${self:service}-api-${self:provider.stage}

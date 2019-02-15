@@ -245,35 +245,12 @@ S3 -- API Gateway -- Lambda -- DynamoDB
       ^^^^^^^^^^^^^^^^^^^^^
 ```
 
-To create a serverless API with API Gateway and Lambda, we need to add two new
-sections to our `serverless.yml`:
-
-- **package**
-- **functions**
-
 ---
+
+To create a serverless API with API Gateway and Lambda, we need to fill out the
+**functions** section of our `serverless.yml` file.
 
 What do you think this section does?
-
-```yaml
-package:
-  include:
-    - index.js
-```
-
-<details><summary>Show</summary><p>
-
-The **package** section describes the code files on your computer that form the
-API. This includes logic to write todos to and read todos from a database.
-
-The files included in the package are uploaded to an S3 bucket, so that Lambda
-can access the files and run your API.
-
-</p></details>
-
----
-
-How about this section?
 
 ```yaml
 functions:
@@ -562,10 +539,6 @@ provider:
     # Replace these square brackets with IAM permissions.
     []
 
-package:
-  # Replace these curly brackets with files to package.
-  {}
-
 functions:
   # Replace these curly brackets with a Lambda function.
   {}
@@ -600,10 +573,6 @@ provider:
   iamRoleStatements:
     # Replace these square brackets with IAM permissions.
     []
-
-package:
-  # Replace these curly brackets with files to package.
-  {}
 
 functions:
   # Replace these curly brackets with a Lambda function.
@@ -666,10 +635,6 @@ provider:
   iamRoleStatements:
     # Replace these square brackets with IAM permissions.
     []
-
-package:
-  include:
-    - index.js
 
 functions:
   TodoApi:
@@ -736,10 +701,6 @@ provider:
   iamRoleStatements:
     # Replace these square brackets with IAM permissions.
     []
-
-package:
-  include:
-    - index.js
 
 functions:
   TodoApi:
@@ -828,10 +789,6 @@ provider:
             - Ref: AWS::AccountId
             - :table/
             - Ref: DatabaseTable
-
-package:
-  include:
-    - index.js
 
 functions:
   TodoApi:
