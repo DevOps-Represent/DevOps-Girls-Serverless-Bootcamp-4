@@ -104,7 +104,7 @@ Note down the public URL of the S3 bucket and click on URL
 
 Your website should now look like this!
 
-IMAGE
+![ui](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/finishedUI.png?raw=true)
 
 <details><summary>Didn't Work?</summary><p>
 
