@@ -1,13 +1,27 @@
 'use strict';
 
-const TABLE_NAME = process.env.TABLE_NAME;
+const TABLE_NAME = process.env.TABLE_NAME.trim();
 
 const AWS = require('aws-sdk');
 
 const dynamoDb = new AWS.DynamoDB();
 
 async function handler(event) {
-  const response = await handleRequest(event);
+  let response;
+
+  try {
+    response = await handleRequest(event);
+  } catch (error) {
+    console.error('error handling request:', error);
+
+    response = {
+      body: JSON.stringify({
+        error: error.toString(),
+        message: 'error handling request'
+      }),
+      statusCode: 500
+    };
+  }
 
   response.headers = response.headers || {};
   response.headers['Access-Control-Allow-Origin'] = '*';
@@ -17,6 +31,12 @@ async function handler(event) {
 }
 
 function handleRequest(event) {
+  if (TABLE_NAME === '') {
+    throw Error(
+      `I don't have a TABLE_NAME environment variable, so I don't know where to read and write your todos.`
+    );
+  }
+
   const body = event.body;
   const method = event.httpMethod.toUpperCase();
   const path = event.path.toLowerCase();

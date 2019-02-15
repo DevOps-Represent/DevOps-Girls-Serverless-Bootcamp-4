@@ -2,6 +2,10 @@
 
 Starter template for a todo app.
 
+> **Disclaimer:** for ease of use, the API will have CORS fully enabled, reveals
+> server error details to the client, and has no authentication. You shouldn't
+> have such a configuration on an actual production system.
+
 ```plaintext
 S3 -- API Gateway -- Lambda -- DynamoDB
 ```
@@ -320,7 +324,7 @@ Gateway:
 
 ---
 
-Try out your new API (use your real service endpoint):
+Try out your new API (use your real endpoint, and add `/todo` on the endpoint):
 
 <https://xxxxxxxxxx.execute-api.ap-southeast-2.amazonaws.com/dev/todo>
 
@@ -330,18 +334,19 @@ What do you see?
 You should see something like this:
 
 ```json
-{ "message": "Internal server error" }
+{
+  "error": "Error: I don't have a TABLE_NAME environment variable, so I don't know where to read and write your todos.",
+  "message": "error handling request"
+}
 ```
-
-Let's have a look at the logs to see what happened:
-
-<https://ap-southeast-2.console.aws.amazon.com/cloudwatch/home?region=ap-southeast-2#logEventViewer:group=/aws/lambda/serverless-starter-todo-api-dev>
-
-![Lambda log error](../images/lambda_log_error.png)
 
 The issue with our Lambda function is that it's missing the name of the
 database table to store our todos in. That's because we haven't created the
 database table yet!
+
+We can also look at the logs to see what happened:
+
+<https://ap-southeast-2.console.aws.amazon.com/cloudwatch/home?region=ap-southeast-2#logEventViewer:group=/aws/lambda/serverless-starter-todo-api-dev>
 
 </p></details>
 
@@ -462,7 +467,7 @@ serverless deploy --verbose
 
 ---
 
-Try out your new API again (use your real service endpoint):
+Try out your new API (use your real endpoint, and add `/todo` on the endpoint):
 
 <https://xxxxxxxxxx.execute-api.ap-southeast-2.amazonaws.com/dev/todo>
 
@@ -487,7 +492,7 @@ S3 -- API Gateway -- Lambda -- DynamoDB
 
 ---
 
-Paste your API URL into the top right textbox of your website:
+Paste your API URL into the top right input field (without `/todo` on the end):
 
 ![Website URL field](../images/website_url_field.png)
 

@@ -3,9 +3,9 @@
 Complete template for a todo app. You may compare your solution to this example
 after you're done, or use it as a reference if you get stuck.
 
-DISCLAIMER: for ease of use, the API has CORS fully enabled and no
-authentication. You probably wouldn't have such a configuration on an actual
-production system.
+> **Disclaimer:** for ease of use, the API will have CORS fully enabled, reveals
+> server error details to the client, and has no authentication. You shouldn't
+> have such a configuration on an actual production system.
 
 ## Create from template
 
