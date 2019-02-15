@@ -103,6 +103,14 @@ Your website should now look like this!
 
 IMAGE
 
+<details><summary>Didn't Work?</summary><p>
+
+Here's a couple things to check if you site didn't work
+- Did you select all 3 website files to make them public?
+- Check your bucket policy, is your bucket name arn correct next to "Resource"
+- Are your public access settings correct?
+
+</p></details>
 
 ## Create a DynamoDB
 Let's create a database to store our to-dos! We're choosing DynamoDB, which is a fully managed NoSQL database. Fully managed means AWS manage scaling in response to demand, patching or configuration.
@@ -236,7 +244,68 @@ Copy and paste this URL into your static website where it says 'API'
 
 Add some TODOS!
 
+<details><summary>Didn't Work?</summary><p>
+
+Here's a couple things to check if you final web app didn't work
+- TODOs not going to your Dynamodb?
+	- Select the correct permissions for your lambda function? Click the 🔑 icon in your lambda function to check the IAM role for your function. It will need to be able to access your dynamoDB and allow requests from the API Gateway.
+	It should look like this:
+```
+{
+  "roleName": "serverless-final-todo-dev-ap-southeast-2-lambdaRole",
+  "policies": [
+    {
+      "document": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Action": [
+              "logs:CreateLogStream"
+            ],
+            "Resource": [
+              "arn:aws:logs:ap-southeast-2:581696986433:log-group:/aws/lambda/serverless-final-todo-api-dev:*"
+            ],
+            "Effect": "Allow"
+          },
+          {
+            "Action": [
+              "logs:PutLogEvents"
+            ],
+            "Resource": [
+              "arn:aws:logs:ap-southeast-2:581696986433:log-group:/aws/lambda/serverless-final-todo-api-dev:*:*"
+            ],
+            "Effect": "Allow"
+          },
+          {
+            "Action": [
+              "dynamodb:DeleteItem",
+              "dynamodb:PutItem",
+              "dynamodb:Scan"
+            ],
+            "Resource": "arn:aws:dynamodb:ap-southeast-2:581696986433:table/serverless-final-todo-dev-DatabaseTable-1O5NZFT2VDQWL",
+            "Effect": "Allow"
+          }
+        ]
+      },
+      "name": "dev-serverless-final-todo-lambda",
+      "type": "inline"
+    }
+  ],
+  "trustedEntities": [
+    "lambda.amazonaws.com"
+  ]
+}
+```
+- TODOs not going to your Dynamodb?
+	- Check your environment variables for your Lambda function, make sure the TABLE_NAME is correct (should match the name you gave your dynamodb)
+- API not working?
+	- Check the settings of your API Gateway, did you create the child resources correctly?
+
+Make sure you grab a volunteer to help if you're stuck!
+
+</p></details>
+
 IMAGE of final UI
 
 
-Great job, you have exercised the paitence of a saint clicking around the AWS console 😇 , but image if you needed to do this 10 more times?! Let's look at a better way of doing things with the Serverless Framework, head to [The Serverless TODO starter repo](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/tree/master/serverless-starter-todo).
+Great job, you have exercised the paitence of a saint clicking around the AWS console 😇 , but imagine if you needed to do this 10 more times?! Let's look at a better way of doing things with the Serverless Framework, head to [The Serverless TODO starter repo](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/tree/master/serverless-starter-todo) to work through this.
