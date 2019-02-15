@@ -32,7 +32,7 @@ Enter a unique bucket name and click "Next". The bucket name has to be globally 
 Click "Next" without making any changes.
 
 ### 4.) Make bucket public
-WE ADVISE NEVER MAKING AN s3 BUCKET PUBLIC! Unless you're using it to host a website, then you need to make it public so people can view your site.
+WE ADVISE NEVER MAKING AN S3 BUCKET PUBLIC! Unless you're using it to host a website, then you need to make it public so people can view your site.
 
 So when you get to the 'permissions' options, this means you're UNTICKING these boxes:
 
