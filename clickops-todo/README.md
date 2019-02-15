@@ -224,9 +224,11 @@ Stage > name your stage 'dev'
 
 Click "Deploy"
 
-![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_7.png?raw=true)
-
 ## Here is where your URL appears! Now let's try your todo!
+
+![APIGateway](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/api_endpoint.png?raw=true)
+
+
 Copy and paste this URL into your static website where it says 'API'
 
 ![yourAPI](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/website_url_field.png?raw=true)
@@ -236,13 +238,5 @@ Add some TODOS!
 
 IMAGE of final UI
 
-Extra points: right click anywhere on the web page and selection 'Inspect'
 
-IMAGE inspect
-
-Click on the console tab to see the output of your requests, if you're seeing something like this, it's working!
-
-IMAGE console
-
-You can even check out your DynamoDB to see new TODOs being addes based on your input.
-
+Great job, you have exercised the paitence of a saint clicking around the AWS console 😇 , but image if you needed to do this 10 more times?! Let's look at a better way of doing things with the Serverless Framework, head to [The Serverless TODO starter repo](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/tree/master/serverless-starter-todo).
