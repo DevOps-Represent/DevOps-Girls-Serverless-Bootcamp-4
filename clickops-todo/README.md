@@ -104,7 +104,7 @@ Note down the public URL of the S3 bucket and click on URL
 
 Your website should now look like this!
 
-![ui](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/finishedUI.png?raw=true)
+![ui](../images/finishedUI.png?raw=true)
 
 <details><summary>Didn't Work?</summary><p>
 
@@ -246,7 +246,7 @@ Click "Deploy"
 
 In your static website, click the 'Set API URL' link to bring up the input field, and paste in your new URL.
 
-![yourAPI](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/URLBar.png?raw=true)
+![yourAPI](../images/URLBar.png?raw=true)
 
 
 Add some TODOS!
@@ -312,7 +312,7 @@ Make sure you grab a volunteer to help if you're stuck!
 
 </p></details>
 
-![finished-ui](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/finishedUIWithURLBar.png?raw=true)
+![finished-ui](../images/finishedUIWithURLBar.png?raw=true)
 
 
 Great job, you have exercised the paitence of a saint clicking around the AWS console 😇 , but imagine if you needed to do this 10 more times?! Let's look at a better way of doing things with the Serverless Framework, head to [The Serverless TODO starter repo](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/tree/master/serverless-starter-todo) to work through this.
