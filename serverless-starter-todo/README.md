@@ -114,6 +114,11 @@ resources:
     WebsiteBucketName:
       Value:
         Ref: WebsiteBucket
+    WebsiteURL:
+      Value:
+        Fn::GetAtt:
+          - WebsiteBucket
+          - WebsiteURL
 ```
 
 Properties that we want to add:
@@ -204,7 +209,8 @@ Review the output of `serverless deploy`:
 
 ```shell
 # Stack Outputs
-# WebsiteBucketName: serverless-starter-todo-dev-XXXXXX
+# WebsiteBucketName: serverless-starter-todo-dev-websitebucket-xxxxxxxxxxxxx
+# WebsiteURL: http://serverless-starter-todo-dev-websitebucket-xxxxxxxxxxxxx.s3-website-ap-southeast-2.amazonaws.com/
 ```
 
 You'll find the name of your S3 bucket.
@@ -215,7 +221,7 @@ Upload the HTML, CSS and JS files in the `ui/dist` folder to S3 (use your real
 bucket name):
 
 ```shell
-aws s3 sync ui/dist/ s3://serverless-starter-todo-dev-XXXXXX
+aws s3 sync ui/dist/ s3://serverless-starter-todo-dev-websitebucket-xxxxxxxxxxxxx
 ```
 
 ---
@@ -223,7 +229,7 @@ aws s3 sync ui/dist/ s3://serverless-starter-todo-dev-XXXXXX
 Try visiting your website (use your real bucket name as the subdomain):
 
 ```plaintext
-http://serverless-starter-todo-dev-XXXXXX.s3-website-ap-southeast-2.amazonaws.com/
+http://serverless-starter-todo-dev-websitebucket-xxxxxxxxxxxxx.s3-website-ap-southeast-2.amazonaws.com/
 ```
 
 What do you see?
@@ -607,6 +613,11 @@ resources:
     WebsiteBucketName:
       Value:
         Ref: WebsiteBucket
+    WebsiteURL:
+      Value:
+        Fn::GetAtt:
+          - WebsiteBucket
+          - WebsiteURL
 ```
 
 </p></details>
@@ -679,6 +690,11 @@ resources:
     WebsiteBucketName:
       Value:
         Ref: WebsiteBucket
+    WebsiteURL:
+      Value:
+        Fn::GetAtt:
+          - WebsiteBucket
+          - WebsiteURL
 ```
 
 </p></details>
@@ -755,6 +771,11 @@ resources:
     WebsiteBucketName:
       Value:
         Ref: WebsiteBucket
+    WebsiteURL:
+      Value:
+        Fn::GetAtt:
+          - WebsiteBucket
+          - WebsiteURL
 ```
 
 </p></details>
@@ -842,6 +863,11 @@ resources:
     WebsiteBucketName:
       Value:
         Ref: WebsiteBucket
+    WebsiteURL:
+      Value:
+        Fn::GetAtt:
+          - WebsiteBucket
+          - WebsiteURL
 ```
 
 </p></details>
