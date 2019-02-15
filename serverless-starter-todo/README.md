@@ -211,11 +211,11 @@ You'll find the name of your S3 bucket.
 
 ---
 
-Upload the HTML, CSS and JS files in the `websites` folder to S3 (use your real
+Upload the HTML, CSS and JS files in the `ui/dist` folder to S3 (use your real
 bucket name):
 
 ```shell
-aws s3 sync website/ s3://serverless-starter-todo-dev-XXXXXX
+aws s3 sync ui/dist/ s3://serverless-starter-todo-dev-XXXXXX
 ```
 
 ---
