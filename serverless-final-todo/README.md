@@ -3,9 +3,31 @@
 Complete template for a todo app. You may compare your solution to this example
 after you're done, or use it as a reference if you get stuck.
 
+```plaintext
+S3 -- API Gateway -- Lambda -- DynamoDB
+```
+
 > **Disclaimer:** for ease of use, the API will have CORS fully enabled, reveals
 > server error details to the client, and has no authentication. You shouldn't
 > have such a configuration on an actual production system.
+
+## Prerequisites
+
+1. [AWS CLI](https://aws.amazon.com/cli/)
+
+1. AWS credentials on your computer:
+
+   ```shell
+   aws configure
+   ```
+
+1. [Node.js + npm](https://nodejs.org/)
+
+1. Serverless Framework:
+
+   ```shell
+   npm install -g serverless
+   ```
 
 ## Create from template
 
