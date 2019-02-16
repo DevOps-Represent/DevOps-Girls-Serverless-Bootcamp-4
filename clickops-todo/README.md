@@ -169,7 +169,7 @@ Delete the hello world code example below and replace it with the code from this
 
 ![Lambda](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/images/lambda_4.png?raw=true)
 
-Add the handler.js code via this link: [link](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/serverless-final-todo/handler.js)
+Add the index.js code via this link: [link](https://github.com/DevOps-Girls/DevOps-Girls-Bootcamp-4/blob/master/serverless-final-todo/index.js)
 
 ### 4.) Environment Variables
 
