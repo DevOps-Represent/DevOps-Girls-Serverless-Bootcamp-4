@@ -55,7 +55,7 @@ provider:
   name: aws
   region: ${opt:region, 'ap-southeast-2'}
   runtime: nodejs8.10
-  stackName: serverless-starter-todo-dev
+  stackName: serverless-starter-todo-${self:provider.stage}
   stage: ${opt:stage, 'dev'}
   iamRoleStatements:
     # Replace these square brackets with IAM permissions.
@@ -261,7 +261,7 @@ What do you think this section does?
 ```yaml
 functions:
   TodoApi:
-    name: serverless-starter-todo-api-dev
+    name: serverless-starter-todo-api-${self:provider.stage}
     handler: index.handler
     environment:
       # Replace these curly brackets with environment variables.
@@ -539,7 +539,7 @@ provider:
   name: aws
   region: ${opt:region, 'ap-southeast-2'}
   runtime: nodejs8.10
-  stackName: serverless-starter-todo-dev
+  stackName: serverless-starter-todo-${self:provider.stage}
   stage: ${opt:stage, 'dev'}
   iamRoleStatements:
     # Replace these square brackets with IAM permissions.
@@ -574,7 +574,7 @@ provider:
   name: aws
   region: ${opt:region, 'ap-southeast-2'}
   runtime: nodejs8.10
-  stackName: serverless-starter-todo-dev
+  stackName: serverless-starter-todo-${self:provider.stage}
   stage: ${opt:stage, 'dev'}
   iamRoleStatements:
     # Replace these square brackets with IAM permissions.
@@ -641,7 +641,7 @@ provider:
   name: aws
   region: ${opt:region, 'ap-southeast-2'}
   runtime: nodejs8.10
-  stackName: serverless-starter-todo-dev
+  stackName: serverless-starter-todo-${self:provider.stage}
   stage: ${opt:stage, 'dev'}
   iamRoleStatements:
     # Replace these square brackets with IAM permissions.
@@ -649,7 +649,7 @@ provider:
 
 functions:
   TodoApi:
-    name: serverless-starter-todo-api-dev
+    name: serverless-starter-todo-api-${self:provider.stage}
     handler: index.handler
     environment:
       TABLE_NAME:
@@ -712,7 +712,7 @@ provider:
   name: aws
   region: ${opt:region, 'ap-southeast-2'}
   runtime: nodejs8.10
-  stackName: serverless-starter-todo-dev
+  stackName: serverless-starter-todo-${self:provider.stage}
   stage: ${opt:stage, 'dev'}
   iamRoleStatements:
     # Replace these square brackets with IAM permissions.
@@ -720,7 +720,7 @@ provider:
 
 functions:
   TodoApi:
-    name: serverless-starter-todo-api-dev
+    name: serverless-starter-todo-api-${self:provider.stage}
     handler: index.handler
     environment:
       TABLE_NAME:
@@ -793,7 +793,7 @@ provider:
   name: aws
   region: ${opt:region, 'ap-southeast-2'}
   runtime: nodejs8.10
-  stackName: serverless-starter-todo-dev
+  stackName: serverless-starter-todo-${self:provider.stage}
   stage: ${opt:stage, 'dev'}
   iamRoleStatements:
     - Effect: Allow
@@ -813,7 +813,7 @@ provider:
 
 functions:
   TodoApi:
-    name: serverless-starter-todo-api-dev
+    name: serverless-starter-todo-api-${self:provider.stage}
     handler: index.handler
     environment:
       TABLE_NAME:

@@ -4,7 +4,7 @@ provider:
   name: aws
   region: ${opt:region, 'ap-southeast-2'}
   runtime: nodejs8.10
-  stackName: serverless-starter-todo-dev
+  stackName: serverless-starter-todo-${self:provider.stage}
   stage: ${opt:stage, 'dev'}
   iamRoleStatements:
     # Replace these square brackets with IAM permissions.
